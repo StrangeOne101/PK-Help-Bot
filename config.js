@@ -76,9 +76,28 @@ function getSplit() {
 	return typeof config.Split === 'undefined' ? ">>" : config.Split;
 }
 
+function getDefaultChannelType() {
+}
+
+function getIgnoredChannels() {
+	return typeof config.IgnoredChannels === 'undefined' ? [] : config.IgnoredChannels;
+}
+
+function getLoudChannels() {
+	return typeof config.LoudChannels === 'undefined' ? [] : config.LoudChannels;
+}
+
+function getQuietChannels() {
+	return typeof config.QuietChannels === 'undefined' ? [] : config.QuietChannels;
+}
+
 exports.getToken = getToken;
 exports.getURL = getURL
 exports.getSplit = getSplit
+exports.getIgnoredChannels = getIgnoredChannels;
+exports.getQuietChannels = getQuietChannels;
+exports.getLoudChannels = getLoudChannels;
+exports.getDefaultChannelType = getDefaultChannelType;
 exports.isOp = isOp;
 exports.unbarUser = unbarUser;
 exports.isBarred = isUserBarred;

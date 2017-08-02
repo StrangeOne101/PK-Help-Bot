@@ -2,6 +2,7 @@ var chatMap = new Map();
 
 var http = require("http");
 var config = require("./config");
+var discord = require("discord.js");
 
 var parentM;
 
@@ -15,6 +16,7 @@ function handle(message, sender, channel, msgobj) {
 	var isOp = config.isOp(sender.id);
 	
 	if (config.isBarred(sender.id) && !isOp) return;
+	if (isChannelIgnored(channel)) return;
 	
 	if (message.startsWith("!") && isOp) {
 		message = message.toLowerCase();
@@ -25,7 +27,7 @@ function handle(message, sender, channel, msgobj) {
 			handleCommand(message.substr(1).split(" ")[0], args, sender, channel, msgobj);
 		} catch (exception) {
 			console.log(exception);
-			channel.send("An error occured while running this command. Please check the console.")
+			send(channel, sender, "An error occured while running this command. Please check the console.")
 		}
 		
 		
@@ -36,7 +38,7 @@ function handle(message, sender, channel, msgobj) {
 			
 			var exp = new RegExp(key, "i");
 			if (exp.test(message)) {
-				channel.send(msg);
+				send(channel, sender, msg);
 				break;
 			}
 		}
@@ -45,17 +47,17 @@ function handle(message, sender, channel, msgobj) {
 
 function handleCommand(command, args, sender, channel, msgobj) {
 	if (command == "debug") {
-		channel.send("Author: " + sender + ", ID: " + sender.id)
+		channel.send(channel, sender, "Author: " + sender + ", ID: " + sender.id)
 	}
 	
 	else if (command == "reload") {
-		channel.send("Reloading... one moment");
+		send(channel, sender, "Reloading... one moment");
 		config.load();
 		fetchChatStuff(function(size) {
-			channel.send("Reload successful! Loaded " + size + " regex commands!");
+			send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
 		});
 	} else if (command == "latency") {
-		channel.send("Current ping: " + parentM.client.ping);
+		send(channel, sender, "Current ping: " + parentM.client.ping);
 	} else if (command == "bar") {
 		if (msgobj.mentions.users.size == 0) {
 			sender.send("Incorrect usage! Make sure you specify a user! Usage: `!bar @user`");
@@ -100,11 +102,47 @@ function fetchChatStuff(callback) {
 			}
 		}
 		
+		console.log("Finished loading regex expressisons!");
+		
 		
 		if (typeof callback !== "undefined") {
 			callback(chatMap.size);
 		}
 	});
+}
+
+/**
+ * Send a message to a person. Depending on the channel, it may
+ * be send via the channel or via DM.
+ */
+function send(channel, sender, message) {
+	if (!(channel instanceof discord.TextChannel)) { //If it's not a text channel, just reply. For group DMs or single DMs
+		channel.send(message);
+		return;
+	}
+	
+	var loud = config.getLoudChannels().indexOf(channel.name) !== -1;
+	var quiet = config.getQuietChannels().indexOf(channel.name) !== -1;
+	
+	if (!loud && !quiet) {
+		loud = config.getDefaultChannelType().toLowerCase() == "loud";
+		quiet = !loud;
+	}
+	
+	if (loud) { //If the bot is allowed to be voiced in the channel
+		channel.send(message);
+	} else if (quiet) { //DM them the message if the bot can't reply to the channel
+		sender.send(message);
+	} else {
+		throw Exception("wtf is going on here?!?");
+	}
+}
+
+/**
+ * Returns true if the provided channel should be ignored.
+ */
+function isChannelIgnored(channel) {
+	return channel instanceof discord.TextChannel && config.getIgnoredChannels().indexOf(channel.name) !== -1;
 }
 
 /**

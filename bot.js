@@ -25,7 +25,7 @@ client.on('ready', () => {
   console.log("Fetching regex commands...");
   ChatHandler.fetchChatStuff();
   
-  console.log("Loaded " + config.getOps().size + " ops and " + config.getBarredUsers().size + " barred users");
+  console.log("Loaded " + config.getOps().length + " op(s) and " + config.getBarredUsers().length + " barred user(s)");
   
   //client.user.setStatus("online");
 });
@@ -38,7 +38,7 @@ client.on("disconnect", function() {
 client.on('message', message => {
 	
 	ChatHandler.handle(message.content, message.author, message.channel, message);
-	console.log("[IN] " + message.author.username + ": " + message.content);
+	console.log("[" + message.channel + "] " + message.author.username + ": " + message.content);
 });
 
 // Log our bot in
