@@ -27,6 +27,20 @@ Ops:
   - '145436402107154433'
 BarredUsers:
   - null
+DefaultChannelType: 'quiet'
+LoudChannels:
+  - 'help-desk'
+  - 'development'
+QuietChannels:
+  - 'general'
+  - 'suggestions'
+  - 'server'
+IgnoredChannels:
+  - 'off-topic'
+  - 'staff'
+  - 'politics'
+  - 'gaming'
+  - 'announcements'
 ```
 **Token**: The bot token provided from discord. 
 
@@ -37,3 +51,11 @@ BarredUsers:
 **Ops**: A list of ops that can use any ! commands. These are users unique discord IDs, and can be seen when typing @username in any channel the bot is in. In the log, it will translate it to <@USER_ID>
 
 **BarredUsers**: A list of IDs of people that cannot use the bot.
+
+**DefaultChannelType**: The default voice level of a channel that isn't found in the lists bellow. Can either be `QUIET` or `LOUD`.
+
+**LoudChannels**: Channels the bot should reply normally to.
+
+**QuietChannels**: Channels the bot is still active in, but will DM its replies to users instead of replying to the channel
+
+**IgnoredChannels**: Channels the bot ignores and will not even parse.
