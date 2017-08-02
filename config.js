@@ -77,6 +77,7 @@ function getSplit() {
 }
 
 function getDefaultChannelType() {
+	return typeof config.DefaultChannelType === 'undefined' ? "quiet" : config.DefaultChannelType;
 }
 
 function getIgnoredChannels() {
