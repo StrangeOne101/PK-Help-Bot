@@ -70,11 +70,11 @@ function handleCommand(command, args, sender, channel, msgobj) {
 		}
 	} else if (command == "unbar") {
 		if (msgobj.mentions.users.size == 0) {
-			sender.send("Incorrect usage! Make sure you specify a user! Usage: `!bar @user`");
+			sender.send("Incorrect usage! Make sure you specify a user! Usage: `!unbar @user`");
 			msgobj.react(emoji_cross);
 		} else {
 			for (var [id, user] of msgobj.mentions.users) {
-				config.unUser(id);
+				config.unbarUser(id);
 			}
 			msgobj.react(emoji_tickbox);
 		}
