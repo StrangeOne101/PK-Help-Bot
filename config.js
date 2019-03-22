@@ -25,7 +25,8 @@ function save() {
 	if (typeof config.Ops === 'undefined') config.Ops = [];
 	if (typeof config.Token === 'undefined') config.Token = "***insertTokenHere***";
 	if (typeof config.URL === 'undefined') config.URL = "https://pastebin.com/raw/zYBsBi5R";
-	if (typeof config.Split === 'undefined') config.URL = ">>";
+	if (typeof config.Split === 'undefined') config.Split = ">>";
+	if (typeof config.CommandPrefix === 'undefined') config.CommandPrefix = "!";
 	try {
 		fs.writeFile(file, yaml.dump(config));
 	} catch (e) {
@@ -76,6 +77,12 @@ function getSplit() {
 	return typeof config.Split === 'undefined' ? ">>" : config.Split;
 }
 
+function getCommandPrefix() {
+	function getSplit() {
+		return typeof config.CommandPrefix === 'undefined' ? "!" : config.CommandPrefix;
+	}
+}
+
 function getDefaultChannelType() {
 	return typeof config.DefaultChannelType === 'undefined' ? "quiet" : config.DefaultChannelType;
 }
@@ -99,6 +106,7 @@ exports.getIgnoredChannels = getIgnoredChannels;
 exports.getQuietChannels = getQuietChannels;
 exports.getLoudChannels = getLoudChannels;
 exports.getDefaultChannelType = getDefaultChannelType;
+exports.getCommandPrefix = getCommandPrefix;
 exports.isOp = isOp;
 exports.unbarUser = unbarUser;
 exports.isBarred = isUserBarred;

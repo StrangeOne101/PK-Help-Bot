@@ -3,6 +3,7 @@ var chatMap = new Map();
 var http = require("http");
 var config = require("./config");
 var discord = require("discord.js");
+const commandsLib = require("./commands");
 
 var parentM;
 
@@ -18,7 +19,7 @@ function handle(message, sender, channel, msgobj) {
 	if (config.isBarred(sender.id) && !isOp) return;
 	if (isChannelIgnored(channel)) return;
 	
-	if (message.startsWith("!") && isOp) {
+	if (message.startsWith("!")) {
 		message = message.toLowerCase();
 		
 		//This cuts the first arg off and splits the rest
@@ -27,7 +28,7 @@ function handle(message, sender, channel, msgobj) {
 			handleCommand(message.substr(1).split(" ")[0], args, sender, channel, msgobj);
 		} catch (exception) {
 			console.log(exception);
-			send(channel, sender, "An error occured while running this command. Please check the console.")
+			send(channel, sender, "An error occurred while running this command. Please check the console.")
 		}
 		
 		
@@ -46,39 +47,53 @@ function handle(message, sender, channel, msgobj) {
 }
 
 function handleCommand(command, args, sender, channel, msgobj) {
-	if (command == "debug") {
-		channel.send(channel, sender, "Author: " + sender + ", ID: " + sender.id)
+	if (config.isOp(sender.id)) { //Temp - Will be moved to files later
+		if (command == "debug") {
+			channel.send(channel, sender, "Author: " + sender + ", ID: " + sender.id)
+			return;
+		} else if (command == "reload") {
+			send(channel, sender, "Reloading... one moment");
+			config.load();
+			commandsLib.loadCommands();
+			fetchChatStuff(function(size) {
+				send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
+			});
+			return;
+		} else if (command == "latency") {
+			send(channel, sender, "Current ping: " + parentM.client.ping);
+			return;
+		} else if (command == "bar") {
+			if (msgobj.mentions.users.size == 0) {
+				sender.send("Incorrect usage! Make sure you specify a user! Usage: `!bar @user`");
+				msgobj.react(emoji_cross).catch(o=>{});
+			} else {
+				for (var [id, user] of msgobj.mentions.users) {
+					config.barUser(id);
+				}
+				msgobj.react(emoji_tickbox).catch(o=>{});
+			}
+			return;
+		} else if (command == "unbar") {
+			if (msgobj.mentions.users.size == 0) {
+				sender.send("Incorrect usage! Make sure you specify a user! Usage: `!unbar @user`");
+				msgobj.react(emoji_cross).catch(o=>{});;
+			} else {
+				for (var [id, user] of msgobj.mentions.users) {
+					config.unbarUser(id);
+				}
+				msgobj.react(emoji_tickbox).catch(o=>{});;
+			}
+			return;
+		}
+
 	}
-	
-	else if (command == "reload") {
-		send(channel, sender, "Reloading... one moment");
-		config.load();
-		fetchChatStuff(function(size) {
-			send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
-		});
-	} else if (command == "latency") {
-		send(channel, sender, "Current ping: " + parentM.client.ping);
-	} else if (command == "bar") {
-		if (msgobj.mentions.users.size == 0) {
-			sender.send("Incorrect usage! Make sure you specify a user! Usage: `!bar @user`");
-			msgobj.react(emoji_cross);
-		} else {
-			for (var [id, user] of msgobj.mentions.users) {
-				config.barUser(id);
-			}
-			msgobj.react(emoji_tickbox);
+
+	if (commandsLib.isCommand(command)) {
+		if (commandsLib.canUseCommand(command, sender)) {
+			commandsLib.runCommand(command, sender, msgobj);
 		}
-	} else if (command == "unbar") {
-		if (msgobj.mentions.users.size == 0) {
-			sender.send("Incorrect usage! Make sure you specify a user! Usage: `!unbar @user`");
-			msgobj.react(emoji_cross);
-		} else {
-			for (var [id, user] of msgobj.mentions.users) {
-				config.unbarUser(id);
-			}
-			msgobj.react(emoji_tickbox);
-		}
-	}		
+	}
+
 }
 
 /**

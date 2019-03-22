@@ -4,7 +4,7 @@ var config = require("./config");
 console.log('******* Bot starting *******');
 config.load();
 const ChatHandler = require("./chathandler");
-
+const CommandsLib = require("./commands");
 
 // Create an instance of a Discord client
 const client = new Discord.Client();
@@ -24,6 +24,7 @@ client.on('ready', () => {
   ChatHandler.setParent(instance);
   console.log("Fetching regex commands...");
   ChatHandler.fetchChatStuff();
+  CommandsLib.loadCommands();
   
   console.log("Loaded " + config.getOps().length + " op(s) and " + config.getBarredUsers().length + " barred user(s)");
   
