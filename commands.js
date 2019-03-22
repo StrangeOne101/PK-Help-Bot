@@ -1,19 +1,21 @@
 const fs = require("fs");
+const path = require("path");
 const config = require("./config");
 
 let commands = new Map();
 let PREFIX = config.getCommandPrefix();
 
 function loadCommands() {
-	let path = fs.join(__dirname, "commands");
-	fs.readdir(path, function(err, files) {
+	let dir = path.join(__dirname, "commands");
+	console.log(dir);
+	fs.readdir(dir, function(err, files) {
 		if (err) {
 			console.log("Unable to scan commands directory: " + err);
 			return;
 		}
 
 		files.forEach(file => {
-			const command = require(file);
+			const command = require(path.join(dir, file));
 
 			if (command.name && command.canRun && command.run) {
 				commands.put(command.name.replace("{prefix}", PREFIX).replace(" ", "-").toLowerCase(), command);
