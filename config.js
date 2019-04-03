@@ -50,19 +50,13 @@ function barUser(id) {
 function unbarUser(id) {
 	if (!isUserBarred(id)) return false;
 	
-	var array = [];
-	for (i in config.BarredUsers) {
-		if (config.BarredUsers[i] != id) {
-			array.push(config.BarredUsers[i]);
-		}
-	}
-	config.BarredUsers = array;
+	config.BarredUsers = config.BarredUsers.filter((item)=>item != id);
 	save();
 	return true;
 }
 
 function isOp(id) {
-	return config.Ops.indexOf(id) != -1;
+	return config.Ops.includes(id);
 }
 
 function getToken() {
@@ -99,23 +93,22 @@ function getQuietChannels() {
 	return typeof config.QuietChannels === 'undefined' ? [] : config.QuietChannels;
 }
 
-exports.getToken = getToken;
-exports.getURL = getURL
-exports.getSplit = getSplit
-exports.getIgnoredChannels = getIgnoredChannels;
-exports.getQuietChannels = getQuietChannels;
-exports.getLoudChannels = getLoudChannels;
-exports.getDefaultChannelType = getDefaultChannelType;
-exports.getCommandPrefix = getCommandPrefix;
-exports.isOp = isOp;
-exports.unbarUser = unbarUser;
-exports.isBarred = isUserBarred;
-exports.barUser = barUser;
-exports.load = load;
-exports.save = save;
-exports.getOps = function() {
-	return config.Ops;
-};
-exports.getBarredUsers = function() {
-	return config.BarredUsers;
-};
+//ES6
+exports = {
+	getToken,
+	getURL,
+	getSplit,
+	getIgnoredChannels,
+	getQuietChannels,
+	getLoudChannels,
+	getDefaultChannelType,
+	getCommandPrefix,
+	isOp,
+	unbarUser,
+	isBarred,
+	barUser,
+	load,
+	save,
+	getOps: () => config.Ops,
+	getBarredUsers: () => config.BarredUsers
+}
