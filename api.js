@@ -1,14 +1,15 @@
-const { client } = require("./bot.js")
-const config = require("./config.js")
+const { client } = require("./bot")
+const config = require("./config")
+const { addReloadEvent } = require("./chathandler")
 
 const id = new RegExp('<(@&?|#)(\d{9,24})>');
 const message_id = new RegExp('https:\/\/discord\.com\/channels\/(\d{9,25})\/(\d{9,25})\/(\d{9,25})');
 
-export function getUser(string) {
+function getUser(string) {
     return client.users.fetch(getId(string));
 }
 
-export function getMember(string, context) {
+function getMember(string, context) {
     var localId = getId(string);
     if (context !== 'undefined' && context.guild !== 'undefined') {
         return context.guild.members.cache.get(localId);
@@ -23,11 +24,11 @@ export function getMember(string, context) {
     return null;
 }
 
-export function getChannel(string) {
+function getChannel(string) {
     return await client.channels.fetch(getId(string));
 }
 
-export function getId(string) {
+function getId(string) {
     if (typeof string === "string") {
         if (id.test(string)) {
             return id.match(string)[1]; //The proper ID
@@ -42,7 +43,7 @@ export function getId(string) {
     return "";
 }
 
-export function getMessage(snowflake, context) {
+function getMessage(snowflake, context) {
     //Test if it is a URL
     if (message_id.test(snowflake)) {
         const split = message_id.match(snowflake);
@@ -98,10 +99,29 @@ export function getMessage(snowflake, context) {
 
 }
 
-export function isOp(snowflake) {
+function isOp(snowflake) {
     return config.isOp(getId(snowflake));
 }
 
-export function isBlacklisted(snowflake) {
+function isBlacklisted(snowflake) {
     return config.isUserBarred(getId(snowflake));
+}
+
+function subscribe(event, callback) {
+    if (event === "reload") {
+        addReloadEvent(callback);
+    } else {
+        client.on(event, callback);
+    }
+}
+
+module.exports = {
+    subscribe,
+    isBlacklisted,
+    isOp,
+    getMember,
+    getMessage,
+    getChannel,
+    getId,
+    getUser
 }

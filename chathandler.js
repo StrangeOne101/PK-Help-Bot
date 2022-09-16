@@ -5,6 +5,8 @@ var config = require("./config");
 var discord = require("discord.js");
 const commandsLib = require("./commands");
 
+const reloadEvents = [];
+
 var parentM;
 
 var barred = [];
@@ -55,6 +57,9 @@ function handleCommand(command, args, sender, channel, msgobj) {
 			send(channel, sender, "Reloading... one moment");
 			config.load();
 			commandsLib.loadCommands();
+			for (callback of reloadEvents) {
+				callback();
+			}
 			fetchChatStuff(function(size) {
 				send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
 			});
@@ -196,4 +201,7 @@ exports.handle = handle;
 exports.fetchChatStuff = fetchChatStuff;
 exports.setParent = function(module) {
 	parentM = module;
+}
+exports.addReloadEvent = (callback) => {
+	reloadEvents.push(callback);
 }

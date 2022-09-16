@@ -93,7 +93,7 @@ function getQuietChannels() {
 }
 
 //ES6
-exports = {
+module.exports = {
 	getToken,
 	getURL,
 	getSplit,
