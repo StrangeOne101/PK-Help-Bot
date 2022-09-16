@@ -1,8 +1,8 @@
-const API = require("./api");
+const API = require("../api");
 const FS = require("fs");
 
 let reactionList = [];
-const file = "./config/autoreactor.json";
+const file = "../config/autoreactor.json";
 
 function loadReactions() {
     reactionList = JSON.parse(FS.readFileSync(file, 'utf8'));

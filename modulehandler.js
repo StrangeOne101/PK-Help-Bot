@@ -9,7 +9,12 @@ FS.readdir(dir, function(err, files) {
     }
 
     files.forEach(file => {
-        require(PATH.join(dir, file)); //Load the module
+        try {
+            require(PATH.join(dir, file)); //Load the module
+        } catch (exception) {
+            console.error("Failed to load module " + file);
+            console.error(exception);
+        }
     });
 
     console.log("Loaded " + files.length + " modules.");

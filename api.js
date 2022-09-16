@@ -25,7 +25,7 @@ function getMember(string, context) {
 }
 
 function getChannel(string) {
-    return await client.channels.fetch(getId(string));
+    return client.channels.fetch(getId(string));
 }
 
 function getId(string) {
@@ -43,7 +43,7 @@ function getId(string) {
     return "";
 }
 
-function getMessage(snowflake, context) {
+async function getMessage(snowflake, context) {
     //Test if it is a URL
     if (message_id.test(snowflake)) {
         const split = message_id.match(snowflake);
@@ -53,7 +53,7 @@ function getMessage(snowflake, context) {
 
         const realGuild = client.guilds.cache.get(guild);
         const realChan = realGuild.channels.cache.get(chan);
-        const realMsg = await realChan.message.fetch(msg).get();
+        const realMsg = await realChan.message.fetch(msg);
 
         if (realMsg !== 'undefined')
             return realMsg;

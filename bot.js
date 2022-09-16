@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Permissions } = require('discord.js');
+const { Client, GatewayIntentBits, PermissionsBitField } = require('discord.js');
 const http = require("http");
 const config = require("./config");
 console.log('******* Bot starting *******');
@@ -25,11 +25,7 @@ var instance = this;
 // from Discord _after_ ready is emitted
 client.on('ready', () => {
   let link = client.generateInvite({
-    permissions: [
-      Permissions.FLAGS.SEND_MESSAGES,
-      Permissions.FLAGS.MANAGE_GUILD,
-      Permissions.FLAGS.MENTION_EVERYONE,
-    ],
+    permissions: PermissionsBitField.All,
     scopes: ['bot'],
   });
   console.log(`Generated bot invite link: ${link}`);
