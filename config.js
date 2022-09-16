@@ -1,9 +1,8 @@
 var fs = require("fs");
-var yaml = require('js-yaml');
 
 var config = {};
 
-var file = "./config.yml";
+var file = "./config/config.json";
 
 //Get document, or throw exception on error
 
@@ -11,8 +10,8 @@ var file = "./config.yml";
 function load() {
 	try {
 		console.log("Loading config...");
-		config = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
-		console.log("YAML Config loaded!");
+		config = JSON.parse(fs.readFileSync(file, 'utf8'));
+		console.log("JSON Config loaded!");
 	} catch (e) {
 		console.log(e);
 		return false;
@@ -28,7 +27,7 @@ function save() {
 	if (typeof config.Split === 'undefined') config.Split = ">>";
 	if (typeof config.CommandPrefix === 'undefined') config.CommandPrefix = "!";
 	try {
-		fs.writeFile(file, yaml.dump(config));
+		fs.writeFileSync(file, JSON.stringify(config));
 	} catch (e) {
 		console.log(e);
 		return false;
@@ -105,7 +104,7 @@ exports = {
 	getCommandPrefix,
 	isOp,
 	unbarUser,
-	isBarred,
+	isUserBarred,
 	barUser,
 	load,
 	save,

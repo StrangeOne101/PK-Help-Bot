@@ -1,0 +1,27 @@
+{
+    "Token": "***insertTokenHere***",
+    "URL": "https://pastebin.com/raw/zYBsBi5R",
+    "Split": ">>",
+    "CommandPrefix": "!",
+    "Ops": [
+        "145436402107154433"
+    ],
+    "BarredUsers": [],
+    "DefaultChannelType": "quiet",
+    "LoudChannels": [
+        "help-desk",
+        "development"
+    ],
+    "QuietChannels": [
+        "general",
+        "suggestions",
+        "server"
+    ],
+    "IgnoredChannels": [
+        "off-topic",
+        "staff",
+        "politics",
+        "gaming",
+        "announcements"
+    ]
+}
