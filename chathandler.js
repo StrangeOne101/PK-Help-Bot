@@ -21,13 +21,13 @@ function handle(message, sender, channel, msgobj) {
 	if (config.isBarred(sender.id) && !isOp) return;
 	if (isChannelIgnored(channel)) return;
 	
-	if (message.startsWith("!")) {
+	if (message.startsWith(config.getCommandPrefix())) {
 		message = message.toLowerCase();
 		
 		//This cuts the first arg off and splits the rest
 		var args = message.substr(message.substr(1).split(" ")[0].length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
 		try {
-			handleCommand(message.substr(1).split(" ")[0], args, sender, channel, msgobj);
+			handleCommand(message.substr(config.getCommandPrefix().length).split(" ")[0], args, sender, channel, msgobj);
 		} catch (exception) {
 			console.log(exception);
 			send(channel, sender, "An error occurred while running this command. Please check the console.")

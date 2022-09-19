@@ -8,6 +8,7 @@ let PREFIX = config.getCommandPrefix();
 function loadCommands() {
 	let dir = path.join(__dirname, "commands");
 	console.log(dir);
+	var command_no = 0;
 	fs.readdir(dir, function(err, files) {
 		if (err) {
 			console.log("Unable to scan commands directory: " + err);
@@ -15,14 +16,20 @@ function loadCommands() {
 		}
 
 		files.forEach(file => {
-			const command = require(path.join(dir, file));
+			let p = path.join(dir, file);
+			const command = require(p);
 
-			if (command.name && command.canRun && command.run) {
-				commands.put(command.name.replace("{prefix}", PREFIX).replace(" ", "-").toLowerCase(), command);
+			if (command.name && command.canUse && command.run) {
+				if (command.disabled && command.disabled === true) {
+					console.log("Command " + file + " disabled")
+				} else {
+					commands.set(command.name.replace("{prefix}", PREFIX).replace(" ", "-").toLowerCase(), command);
+					command_no++;
+				}
 			}
 		});
 
-		console.log("Loaded " + files.length + " commands.");
+		console.log("Loaded " + command_no + " command(s).");
 	});
 }
 

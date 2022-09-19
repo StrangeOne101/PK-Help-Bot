@@ -12,6 +12,7 @@
 exports.name = "command-template";
 exports.usage = "command-template <message>";
 exports.description = "A template for basic commands";
+exports.disabled = true;
 exports.canUse = function(sender) {
     /**
      * Some examples of what you could have in here...

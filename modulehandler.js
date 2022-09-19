@@ -17,5 +17,5 @@ FS.readdir(dir, async function(err, files) {
         }
     });
 
-    console.log("Loaded " + files.length + " modules.");
+    console.log("Loaded " + files.length + " module(s).");
 });
