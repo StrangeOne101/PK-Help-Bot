@@ -5,11 +5,11 @@ const { addReloadEvent } = require("./chathandler")
 const id = new RegExp('<(@&?|#)(\d{9,24})>');
 const message_id = new RegExp('https:\/\/discord\.com\/channels\/(\d{9,25})\/(\d{9,25})\/(\d{9,25})');
 
-function getUser(string) {
+async function getUser(string) {
     return client.users.fetch(getId(string));
 }
 
-function getMember(string, context) {
+async function getMember(string, context) {
     var localId = getId(string);
     if (context !== 'undefined' && context.guild !== 'undefined') {
         return context.guild.members.cache.get(localId);
@@ -24,11 +24,11 @@ function getMember(string, context) {
     return null;
 }
 
-function getChannel(string) {
+async function getChannel(string) {
     return client.channels.fetch(getId(string));
 }
 
-function getId(string) {
+async function getId(string) {
     if (typeof string === "string") {
         if (id.test(string)) {
             return id.match(string)[1]; //The proper ID
@@ -68,7 +68,7 @@ async function getMessage(snowflake, context) {
             const msg = await context.messages.fetch(snowflake);
             if (msg !== 'undefined') return msg;
 
-            context.guild.channels.cache.forEach((id, channel) => {
+            context.guild.channels.cache.forEach(async (id, channel) => {
                 if (channel.messages !== 'undefined') {
                     const msg = await channel.messages.fetch(snowflake);
                     if (msg !== 'undefined') return msg;
@@ -77,7 +77,7 @@ async function getMessage(snowflake, context) {
 
             return null;
         } else if (context.channels !== 'undefined') { //A guild
-            context.channels.cache.forEach((id, channel) => {
+            context.channels.cache.forEach(async (id, channel) => {
                 if (channel.messages !== 'undefined') {
                     const msg = await channel.messages.fetch(snowflake);
                     if (msg !== 'undefined') return msg;
@@ -99,11 +99,11 @@ async function getMessage(snowflake, context) {
 
 }
 
-function isOp(snowflake) {
+async function isOp(snowflake) {
     return config.isOp(getId(snowflake));
 }
 
-function isBlacklisted(snowflake) {
+async function isBlacklisted(snowflake) {
     return config.isUserBarred(getId(snowflake));
 }
 
