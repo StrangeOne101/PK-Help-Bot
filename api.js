@@ -6,44 +6,61 @@ const id = new RegExp('<(@&?|#)(\d{9,24})>');
 const message_id = new RegExp('https:\/\/discord\.com\/channels\/(\d{9,25})\/(\d{9,25})\/(\d{9,25})');
 
 async function getUser(string) {
-    return client.users.fetch(getId(string));
+    return await client.users.fetch(getId(string));
 }
 
-async function getMember(string, context) {
+async function getMember(string, context = undefined) {
     var localId = getId(string);
-    if (context !== 'undefined' && context.guild !== 'undefined') {
+    if (context !== undefined && context.guild !== undefined) {
         return context.guild.members.cache.get(localId);
     }
     
     client.guilds.cache.forEach((id, guild) => {
-        if (guild.members.cache.get(localId) !== 'undefined') {
+        if (guild.members.cache.get(localId) !== undefined) {
             return guild.members.cache.get(localId);
         }
     });
 
-    return null;
+    return undefined;
 }
 
-async function getChannel(string) {
-    return client.channels.fetch(getId(string));
+async function getChannel(string, context = undefined) {
+    let id = getId(string);
+    if (context !== undefined && context.guild) {
+        if (id !== undefined) {
+            return await context.guild.channels.fetch(id);
+        }
+        let chan = context.guild.channels.cache.find((c) => c.name === string);
+        if (chan !== undefined) {
+            return Promise.resolve(chan);
+        }
+    }
+    if (id !== undefined) {
+        return await client.channels.fetch(id);
+    }
+    let chan = client.channels.cache.find((c) => c.name === string);
+    if (chan !== undefined) {
+        return Promise.resolve(chan);
+    }
+    return Promise.reject("Channel with ID \"" + string + "\" not found!");
 }
 
-async function getId(string) {
+function getId(string) {
     if (typeof string === "string") {
         if (id.test(string)) {
             return id.match(string)[1]; //The proper ID
-        } else if (Number(string) != NaN) {
+        } else if (!isNaN(Number(string))) {
             return string;
         }
     } else if (typeof string === "number" || typeof string === "bigint") {
         return String(string);
-    } else if (string.id !== 'undefined') {
+    } else if (string.id !== undefined) {
         return string.id;
     } 
-    return "";
+    return undefined;
 }
 
-async function getMessage(snowflake, context) {
+async function getMessage(snowflake, context = undefined) {
     //Test if it is a URL
     if (message_id.test(snowflake)) {
         const split = message_id.match(snowflake);
@@ -55,32 +72,32 @@ async function getMessage(snowflake, context) {
         const realChan = realGuild.channels.cache.get(chan);
         const realMsg = await realChan.message.fetch(msg);
 
-        if (realMsg !== 'undefined')
+        if (realMsg !== undefined)
             return realMsg;
 
         return null;
     }
 
     //If a channel or guild was provided
-    if (context !== 'undefined') {
+    if (context !== undefined) {
         //A channel
-        if (context.messages !== 'undefined') {
+        if (context.messages !== undefined) {
             const msg = await context.messages.fetch(snowflake);
-            if (msg !== 'undefined') return msg;
+            if (msg !== undefined) return msg;
 
             context.guild.channels.cache.forEach(async (id, channel) => {
-                if (channel.messages !== 'undefined') {
+                if (channel.messages !== undefined) {
                     const msg = await channel.messages.fetch(snowflake);
-                    if (msg !== 'undefined') return msg;
+                    if (msg !== undefined) return msg;
                 }
             });
 
             return null;
-        } else if (context.channels !== 'undefined') { //A guild
+        } else if (context.channels !== undefined) { //A guild
             context.channels.cache.forEach(async (id, channel) => {
-                if (channel.messages !== 'undefined') {
+                if (channel.messages !== undefined) {
                     const msg = await channel.messages.fetch(snowflake);
-                    if (msg !== 'undefined') return msg;
+                    if (msg !== undefined) return msg;
                 }
             });
             return null;
@@ -90,7 +107,7 @@ async function getMessage(snowflake, context) {
     client.guilds.cache.forEach((id, guild) => {
         guild.channels.cache.forEach((id2, channel) => {
             const msg = channel.messages.cache.get(snowflake);
-            if (msg !== 'undefined') {
+            if (msg !== undefined) {
                 return msg;
             }
         })

@@ -46,16 +46,15 @@ client.on("disconnect", function() {
 })
 
 // Create an event listener for messages
-client.on('message', message => {
+client.on('messageCreate', message => {
     if (client.user.id != message.author.id) {
         ChatHandler.handle(message.content, message.author, message.channel, message);
     }
-    console.log("[" + message.channel + "] " + message.author.username + ": " + message.content);
 });
 
 client.on('uncaughtException', (err) => {
     console.error(err);
-})
+});
 
 // Log our bot in
 client.login(token);

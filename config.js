@@ -71,9 +71,7 @@ function getSplit() {
 }
 
 function getCommandPrefix() {
-	function getSplit() {
-		return typeof config.CommandPrefix === 'undefined' ? "!" : config.CommandPrefix;
-	}
+	return typeof config.CommandPrefix === 'undefined' ? "!" : config.CommandPrefix;
 }
 
 function getDefaultChannelType() {

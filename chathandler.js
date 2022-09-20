@@ -11,21 +11,22 @@ var parentM;
 
 var barred = [];
 
-var emoji_tickbox = "\u2705";
-var emoji_cross = "\u274C";
+const emoji_tickbox = "\u2705";
+const emoji_cross = "\u274C";
 
 function handle(message, sender, channel, msgobj) {
 	//var isOp = sender.id == "145436402107154433"; //ID of the owner of the bot
 	var isOp = config.isOp(sender.id);
+	const pre = config.getCommandPrefix();
 	
-	if (config.isBarred(sender.id) && !isOp) return;
+	if (config.isUserBarred(sender.id) && !isOp) return;
 	if (isChannelIgnored(channel)) return;
 	
-	if (message.startsWith(config.getCommandPrefix())) {
+	if (message.startsWith(pre)) {
 		message = message.toLowerCase();
 		
 		//This cuts the first arg off and splits the rest
-		var args = message.substr(message.substr(1).split(" ")[0].length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
+		var args = message.substr(message.substr(pre.length).split(" ")[0].length + pre.length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
 		try {
 			handleCommand(message.substr(config.getCommandPrefix().length).split(" ")[0], args, sender, channel, msgobj);
 		} catch (exception) {

@@ -1,3 +1,5 @@
+const { isOp, getChannel, getId } = require("./../api");
+
 /**
  * This is a basic template for how commands should be setup.
  *
@@ -9,21 +11,35 @@
  * true if run() is ever to be called
  * @function run The code executed when this command is run
  */
-exports.name = "echo";
-exports.usage = "echo <channel> <message>";
-exports.description = "Send a message to a channel";
-exports.canUse = function(sender) {
-    return isOp(sender.id);
-}
-exports.run = function(messageObj, channel, sender, args) {
-    if (args.length < 2) {
-        messageObj.reply("Usage is `" + exports.usage + "`")
-        return;
-    }
+module.exports = {
+    name: "echo",
+    usage: "echo <channel> <message>",
+    description: "Send a message to a channel",
+    canUse: async function(sender) {
+        return isOp(sender.id);
+    },
+    run: async function(messageObj, channel, sender, args) {
+        if (args.length < 2) {
+            messageObj.reply("Usage is `" + exports.usage + "`")
+            return;
+        }
 
-    var chan = getChannel(args[0]);
-    args.pop();
-    chan.send(args);
-    
-    messageObj.reply("Message sent!")
+        const cha = args[0];
+        getChannel(cha, messageObj).then((chan) => {
+            if (chan === undefined) {
+                messageObj.reply("Failed to find channel \"" + cha + "\"!");
+                return;
+            }
+            console.log(args);
+            args.shift();
+            console.log(args);
+            chan.send(args.join(" "));
+            
+            messageObj.react("\u2705");
+        }).catch((msg) => {
+            console.log("Msg : '" + msg + "'")
+            if (msg !== 'undefined' && msg !== '') messageObj.reply(msg);
+            else messageObj.reply("Failed to find channel \"" + cha + "\"!")
+        });
+    }
 }
