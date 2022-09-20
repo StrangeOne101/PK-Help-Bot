@@ -2,8 +2,8 @@ const { client } = require("./bot")
 const config = require("./config")
 const { addReloadEvent } = require("./chathandler")
 
-const id = new RegExp('<(@&?|#)(\d{9,24})>');
-const message_id = new RegExp('https:\/\/discord\.com\/channels\/(\d{9,25})\/(\d{9,25})\/(\d{9,25})');
+const id = /<(?:@&?|#)(\d{9,24})>/;
+const message_id = /https:\/\/discord\.com\/channels\/(\d{9,25})\/(\d{9,25})\/(\d{9,25})/;
 
 async function getUser(string) {
     return await client.users.fetch(getId(string));
@@ -48,7 +48,8 @@ async function getChannel(string, context = undefined) {
 function getId(string) {
     if (typeof string === "string") {
         if (id.test(string)) {
-            return id.match(string)[1]; //The proper ID
+            var tested = string.match(id);
+            return tested[1]; //The proper ID
         } else if (!isNaN(Number(string))) {
             return string;
         }
@@ -63,7 +64,7 @@ function getId(string) {
 async function getMessage(snowflake, context = undefined) {
     //Test if it is a URL
     if (message_id.test(snowflake)) {
-        const split = message_id.match(snowflake);
+        const split = snowflake.match(message_id);
         const guild = split[0];
         const chan = split[1];
         const msg = split[2];

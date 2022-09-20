@@ -24,22 +24,20 @@ module.exports = {
             return;
         }
 
-        const cha = args[0];
-        getChannel(cha, messageObj).then((chan) => {
+        const chanName = args[0];
+        getChannel(chanName, messageObj).then((chan) => {
             if (chan === undefined) {
-                messageObj.reply("Failed to find channel \"" + cha + "\"!");
+                messageObj.reply("Failed to find channel \"" + chanName + "\"!");
                 return;
             }
-            console.log(args);
             args.shift();
-            console.log(args);
             chan.send(args.join(" "));
             
-            messageObj.react("\u2705");
+            messageObj.react("\u2705"); //Check mark
         }).catch((msg) => {
             console.log("Msg : '" + msg + "'")
             if (msg !== 'undefined' && msg !== '') messageObj.reply(msg);
-            else messageObj.reply("Failed to find channel \"" + cha + "\"!")
+            else messageObj.reply("Failed to find channel \"" + chanName + "\"!")
         });
     }
 }
