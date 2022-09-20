@@ -1,4 +1,5 @@
-const { isOp, getChannel } = require("./../api");
+const { isOp, getMessage } = require("../api");
+const { client } = require("../bot");
 
 /**
  * This is a basic template for how commands should be setup.
@@ -12,9 +13,9 @@ const { isOp, getChannel } = require("./../api");
  * @function run The code executed when this command is run
  */
 module.exports = {
-    name: "echo",
-    usage: "echo <channel> <message>",
-    description: "Send a message to a channel",
+    name: "echoedit",
+    usage: "echoedit <message_id> <new message>",
+    description: "Edit a message sent by the bot",
     canUse: async function(sender) {
         return isOp(sender.id);
     },
@@ -24,18 +25,22 @@ module.exports = {
             return;
         }
 
-        const chanName = args[0];
-        getChannel(chanName, messageObj).then((chan) => {
-            if (chan === undefined) {
-                messageObj.reply("Failed to find channel \"" + chanName + "\"!");
+        const messageId = args[0];
+        getMessage(messageId, channel).then((message) => {
+            if (message === undefined) {
+                messageObj.reply("Failed to find message \"" + messageId + "\"!");
+                return;
+            }
+            if (message.author.id != client.user.id) {
+                messageObj.reply("That message was not sent by the bot!");
                 return;
             }
             args.shift();
-            chan.send(args.join(" "));
+            message.edit(args.join(" "));
             
             messageObj.react("\u2705"); //Check mark
         }).catch((msg) => {
-            messageObj.reply("Failed to find channel \"" + chanName + "\"!");
+            messageObj.reply("Failed to find message \"" + messageId + "\"!");
         });
     }
 }
