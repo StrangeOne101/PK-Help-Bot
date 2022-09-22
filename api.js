@@ -85,32 +85,40 @@ async function getMessage(snowflake, context = undefined) {
     if (context !== undefined) {
         //A channel
         if (context.messages !== undefined) { //A channel
-            const msg = await context.messages.fetch(snowflake);
-            if (msg !== undefined) return msg;
-
-            context.guild.channels.cache.forEach(async (id, channel) => {
+            try {
+                const msg = await context.messages.fetch(snowflake);
+                if (msg !== undefined) return msg;
+            } catch (e) {}
+        
+            for (let [id, channel] of context.guild.channels.cache.entries()) {
                 if (channel.messages !== undefined) {
-                    const msg = await channel.messages.fetch(snowflake);
-                    if (msg !== undefined) return msg;
+                    try {
+                        let msg = await channel.messages.fetch(snowflake);
+                        if (msg !== undefined) return msg;
+                    } catch (e) {}
                 }
-            });
+            }
 
             return Promise.reject("Failed to get message from ID");
         } else if (context.channels !== undefined) { //A guild
-            context.channels.cache.forEach(async (id, channel) => {
+            for (let [id, channel] of context.channels.cache.entries()) {
                 if (channel.messages !== undefined) {
-                    const msg = await channel.messages.fetch(snowflake);
-                    if (msg !== undefined) return msg;
+                    try {
+                        const msg = await channel.messages.fetch(snowflake);
+                        if (msg !== undefined) return msg;
+                    } catch (e) {}
                 }
-            });
+            }
             return Promise.reject("Failed to get message from ID");
         } else if (context.author !== undefined) { //Message
-            context.guild.channels.cache.forEach(async (id, channel) => {
+            for (let [id, channel] of context.guild.channels.cache.entries()) {
                 if (channel.messages !== undefined) {
-                    const msg = await channel.messages.fetch(snowflake);
-                    if (msg !== undefined) return msg;
+                    try {
+                        const msg = await channel.messages.fetch(snowflake);
+                        if (msg !== undefined) return msg;
+                    } catch (e) {}
                 }
-            });
+            }
             return Promise.reject("Failed to get message from ID");
         }
     }
