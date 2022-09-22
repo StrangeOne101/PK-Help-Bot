@@ -1,0 +1,16 @@
+[{
+    "triggers": [
+        "can.+(i.+(get|have)(.+some)?|someone).+help"
+    ],
+    "response": "What would you like help in?",
+    "buttons": [
+        "ProjectKorra Installation",
+        "helpme/install.json",
+        "Plugin Usage",
+        "helpme/usage.json",
+        "Permissions",
+        "helpme/permissions.json",
+        "Configuration",
+        "helpme/configuration.json"
+    ]
+}]
