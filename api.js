@@ -61,6 +61,10 @@ function getId(string) {
     return undefined;
 }
 
+function stripFormatting(string) {
+    return string.replaceAll(/(?<!\\)[*_~|]/g, "");
+}
+
 async function getMessage(snowflake, context = undefined) {
     //Test if it is a URL
     if (message_id.test(snowflake)) {
