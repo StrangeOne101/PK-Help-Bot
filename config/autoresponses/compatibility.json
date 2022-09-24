@@ -27,7 +27,7 @@
                     "1.19"
                 ]
             },
-            "content": "The latest version of ProjectKorra works on Spigot/MC 1.16 to 1.19.2. If you want to use an older version of Minecraft, you'll need to use an older version of PK.\n\nCheck the pins in #support to see the versions compatible with what you want."
+            "content": "The latest version of ProjectKorra only works betwwn Spigot/MC 1.16 to 1.19.2. If you want to use an older version of Minecraft, you'll need to use an older version of PK.\n\nCheck the pins in #support to see the versions compatible with what you want."
         }
     ]
 }]

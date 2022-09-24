@@ -6,6 +6,11 @@ config.load();
 const ChatHandler = require("./chathandler");
 const CommandsLib = require("./commands");
 
+//Make sure all exceptions don't kill the bot
+process.on('uncaughtException', (err) => {
+    console.error(err.stack);
+});
+
 // Create an instance of a Discord client
 const client = new Client({
     intents: [
@@ -50,10 +55,6 @@ client.on('messageCreate', message => {
     if (client.user.id != message.author.id) {
         ChatHandler.handle(message.content, message.author, message.channel, message);
     }
-});
-
-client.on('uncaughtException', (err) => {
-    console.error(err);
 });
 
 // Log our bot in

@@ -1,0 +1,11 @@
+{
+    "response": "To get started, you will need to choose an element. You can do this with the `/bending choose <element>` command. You can choose `Fire`, `Water`, `Earth`, `Air` and `Chi` by default.\n\nAfter you have picked an element, check out the list of abilities with the `/bending display <element>` command. You can then bind these by using the `/bending bind <ability> [slot]` command. Providing the slot is optional, and without it, it will use the current hotbar slot you have selected.\n\nNext, you'll want to learn how to use the abilities you just bound. You can do this with `/bending help <ability>` and that will tell you a bit about it, as well as how to use it.\n\nIf you have any further questions about usage, just ask in support!",
+    "buttons": [
+        "Plugin Installation",
+        "helpme/install.json",
+        "Permissions",
+        "helpme/permissions.json",
+        "Configuration",
+        "helpme/configuration.json"
+    ]
+}

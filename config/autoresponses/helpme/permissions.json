@@ -1,0 +1,11 @@
+[{
+    "response": "This is where I talk about permissions that the author hasn't bothered writing about yet",
+    "buttons": [
+        "ProjectKorra Installation",
+        "helpme/install.json",
+        "Plugin Usage",
+        "helpme/usage.json",
+        "Configuration",
+        "helpme/configuration.json"
+    ]
+}]

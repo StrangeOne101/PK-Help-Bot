@@ -1,7 +1,10 @@
 const API = require("../api");
+const { promisify } = require('util');
 const FS = require("fs");
 const { ThreadChannel, ForumChannel, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
 const config = require("../config");
+const PATH = require("path");
+const { client } = require("../bot");
 
 let regexMap = new Map();
 let fileMap = new Map();
@@ -24,20 +27,20 @@ class ButtonResponse {
         this.buttons = [];
         this.collectors = [];
         
-        if (collectMap.keys.contains(message.id)) {
-            let old = collectMap.get(message.id);
+        if (ButtonResponse.collectMap.has(message.id)) {
+            let old = ButtonResponse.collectMap.get(message.id);
             if (old.timeoutId != -1) 
                 clearTimeout(old.timeoutId); //Remove the timeout ask of the old one
             
-            for (coll of this.collectors) {
+            for (let coll of this.collectors) {
                 coll.dispose(); //Remove the old collectors
             }
         }
 
-        collectMap.set(message.id, this);
+        ButtonResponse.collectMap.set(message.id, this);
 
         //Make a timeout task to remove this from memory
-        this.timeoutId = setTimeout(() => collectMap.delete(message.id), 1_800_000);
+        this.timeoutId = setTimeout(() => ButtonResponse.collectMap.delete(message.id), 1_800_000);
     }
 
     /**
@@ -50,9 +53,11 @@ class ButtonResponse {
      */
     addButton(text, link, callback = undefined) {
         let intid = this.buttons.length;
+        let id = this.message.id + "_" + String(intid);
 
         let button = new ButtonBuilder();
         button.setLabel(text);
+        button.setCustomId(id);
         if (link.startsWith("https://") || link.startsWith("http://") || link.startsWith("www.")) {
             button.setURL(link);
             button.setStyle(ButtonStyle.Link);
@@ -64,7 +69,7 @@ class ButtonResponse {
             let collector = this.message.channel.createMessageComponentCollector(
                 {
                     filter: interaction => interaction.user.id == this.message.author.id && 
-                        interaction.primaryId == this.message.id + "_" + String(intid), 
+                        interaction.customId == id, 
                     time: 1_800_000
                 });
             collector.on("collect", interaction => callback(interaction));
@@ -89,7 +94,7 @@ class Response {
             this.conditions = [];
 
             //Add all conditions. If there is only a single one, just use a single entry array for the loop
-            for (c of jsonObject.conditions || [jsonObject.condition]) {
+            for (let c of jsonObject.conditions || [jsonObject.condition]) {
                 this.conditions.push(new Condition(c));
             }
         }
@@ -105,17 +110,17 @@ class Response {
         //Function to replace all the variables
         let replFunc = () => {
             let clone = this.text.slice();
-            for (m in matches) {
+            for (let m in matches) {
                 clone = clone.replaceAll("$" + m, matches[m]);
             }
             clone = clone.replaceAll("$mention", "<@" + message.id + ">")
                         .replaceAll("$channel", "<#" + message.channel.id + ">")
-                        .replaceAll("$user", message.member.nickname | message.user.username);
+                        .replaceAll("$user", message.member.nickname | message.author.username);
             return clone;
         }
 
         //Check all conditions
-        for (con of this.conditions) {
+        for (let con of this.conditions) {
             if (!con.test(message, matches))  //If one of the conditions fail, don't reply
                 return undefined;
         }
@@ -129,6 +134,8 @@ class Condition {
 
     constructor(object) {
         this.variable = object.variable.toLowerCase();
+        this.type = object.type.toLowerCase().replaceAll("[-_ ]", "").replaceAll("or", "").replaceAll("to", "");
+        this.invert = false;
         if (object.type.toLowerCase().startsWith("not")) {
             this.invert = true;
             this.type = object.type.substr(3);
@@ -136,7 +143,7 @@ class Condition {
             this.invert = true;
             this.type = object.type.substr(1);
         }
-        this.type = this.type.toLowerCase().replaceAll("[-_ ]", "").replaceAll("or", "").replaceAll("to", "");
+        
         this.values = object.values || [object.value];
 
 
@@ -162,7 +169,7 @@ class Condition {
             case "lessequal":
             case "lessequals":
             case "lessthanequal":
-            case "lessthanequals": this.func = FUNC_GREATER_THAN_EQUALS_TO; break;
+            case "lessthanequals": this.func = FUNC_LESS_THAN_EQUAL_TO; break;
         }
     }
 
@@ -178,9 +185,13 @@ class Condition {
         if (this.variable == "name" || this.variable == "username") realVar = message.author.username;
         else if (this.variable == "user") realVar == message.author.tag;
         else if (this.variable == "userid") realVar = message.author.id;
-        else if (this.variable.test("$\\d{1,2}")) realVar = matches[parseInt(this.variable.substr(1))];
+        else if (/\$\d{1,2}/g.test(this.variable)) realVar = matches[parseInt(this.variable.substr(1))];
+        else {
+            console.warn("Failed to parse variable " + this.variable + " in json file " + this.file + "!");
+            return false;
+        }
 
-        for (val of values) {
+        for (let val of this.values) {
             if (!this.invert && realVar == val) return true;
             else if (this.invert && realVar != val) return true;
         }
@@ -196,7 +207,7 @@ class CollectiveResponse {
         this.buttons = jsonObject.buttons || [];
         this.file = file;
 
-        for (resp of jsonObject.responses || [jsonObject.response]) {
+        for (let resp of jsonObject.responses || [jsonObject.response]) {
             this.responses.push(new Response(resp));
         }
     }
@@ -206,17 +217,21 @@ class CollectiveResponse {
         let actualButtons = [];
 
         for (let i = 0; i < this.buttons.length / 2; i++) {
-            let label = this.buttons[i];
-            let redirect = this.buttons[i + 1];
+            let label = this.buttons[i * 2];
+            let redirect = this.buttons[i * 2 + 1];
             let isUrl = redirect.startsWith("https://") || redirect.startsWith("http://") || redirect.startsWith("www.");
             let isJson = redirect.toLowerCase().endsWith(".json");
 
             if (isUrl) {
                 actualButtons.push(buttonResponse.addButton(label, redirect));
             } else if (isJson) {
+                //Make sure they get the correct directory without any bs like different types of slashes
+                redirect = redirect.replaceAll(/\\/g, "/");
+                if (!redirect.startsWith("/")) redirect = "/" + redirect;
+
                 let otherCollective = fileMap.get(redirect);
                 if (otherCollective === undefined) {
-                    console.log("Could not find redirect json file in file " + file + ": '" + redirect + "'");
+                    console.log("Could not find redirect json file in file " + this.file + ": '" + redirect + "'");
                     continue;
                 }
 
@@ -230,7 +245,7 @@ class CollectiveResponse {
         let components = [];
         if (actualButtons.length > 0) {
             let builder = new ActionRowBuilder();
-            for (b of actualButtons) {
+            for (let b of actualButtons) {
                 builder.addComponents(b);
             }
             components = [builder];
@@ -238,11 +253,8 @@ class CollectiveResponse {
         return {content: text, components: components}
     }
 
-    reply(message, regex) {
-        let textMessage = API.stripFormatting(message.content);
-        let matches = textMessage.match(regex);
-        
-        for (res of this.responses) {
+    reply(message, matches) {       
+        for (let res of this.responses) {
             let text = res.respond(message, matches);
             if (text !== undefined) {
                 let contents = this.__make(message, text);
@@ -253,7 +265,7 @@ class CollectiveResponse {
     }
 
     edit(message, interaction) {
-        for (res of this.responses) {
+        for (let res of this.responses) {
             let text = res.respond(message, []);
             if (text !== undefined) {
                 let contents = this.__make(message, text);
@@ -264,46 +276,59 @@ class CollectiveResponse {
     }
 }
 
+async function getFiles(dir) {
+    const readdir = promisify(FS.readdir);
+    const stat = promisify(FS.stat);
+    const subdirs = await readdir(dir);
+    const files = await Promise.all(subdirs.map(async (subdir) => {
+      const res = PATH.resolve(dir, subdir);
+      return (await stat(res)).isDirectory() ? getFiles(res) : res;
+    }));
+    return files.reduce((a, f) => a.concat(f), []);
+  }
+
 /**
  * Loads responses from config
  */
 async function loadResponses() {
-    let dir = path.join(__dirname, "/config/autoresponses");
+    let dir = PATH.join(__dirname, "../config/autoresponses");
 	console.log(dir);
-	FS.readdir(dir, function(err, files) {
-		if (err) {
-			console.log("Unable to scan autoresponses directory: " + err);
-			return;
-		}
-
-		files.forEach(file => {
-			let p = path.join(dir, file);
-			let json = JSON.parse(FS.readFileSync(p, 'utf8'));
+	getFiles(dir).then(files => {
+		files.forEach(file => { 
+			let path = file.substr(dir.length);
+			let json = JSON.parse(FS.readFileSync(file, 'utf8'));
 
             if (Array.isArray(json)) {
                 for (let o of json) {
-                    addResponse(o, p, file);
+                    addResponse(o, path);
                 }
             } else {
-                addResponse(json, p, file);
+                addResponse(json, path);
             }
 		});
 
 		console.log("Loaded " + regexMap.size + " regex replies(s).");
-	});
+	}).catch(err => {
+        if (err) {
+			console.log("Unable to scan autoresponses directory: " + err);
+			return;
+		}
+    });
 }
 
-function addResponse(object, path, file) {
+function addResponse(object, file) {
+    file = file.replaceAll(/\\/g, "/");
     let collectiveResponse = new CollectiveResponse(object, file);
-    fileMap.set(path, collectiveResponse);
+    fileMap.set(file, collectiveResponse);
 
-    for (trig of object.triggers || [object.trigger]) {
-        if (trigger != '') {
+    for (let trigger of object.triggers || [object.trigger] || []) {
+        if (trigger != '' && trigger !== undefined) {
             try {
                 let reg = new RegExp(trigger, "i");
                 regexMap.set(reg, collectiveResponse);
+                console.log("Added response for file " + file);
             } catch (e) {
-                console.warn("Invalid regex in " + path + ": " + trigger);
+                console.warn("Invalid regex in " + file + ": " + trigger);
             }
         }
     }
@@ -315,23 +340,17 @@ async function onTextMessage(message) {
 
     if (config.getIgnoredChannels().indexOf(channel.id) != -1 || config.getIgnoredChannels().indexOf(channel.name) != -1) {
         return;
-    }
+    } else if (message.author.id == client.user.id) return; //Skip if its the bot talking
 
     //Loop through all triggers we have load
     for (trigger of regexMap.keys()) {
         if (trigger.test(msg)) {
             let collectiveResponse = regexMap.get(trigger);
             collectiveResponse.reply(message, msg.match(trigger)); //Reply with the collective response
+            return;
         }
-        return;
     }
 }
-
-async function reply(message, reply) {
-    
-}
-
-
 
 API.subscribe("reload", loadResponses); //Register the reload of reactions on reload
 API.subscribe("messageCreate", onTextMessage); //Register the handler for when text messages are sent

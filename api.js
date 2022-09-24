@@ -196,5 +196,6 @@ module.exports = {
     getMessage,
     getChannel,
     getId,
-    getUser
+    getUser,
+    stripFormatting
 }
