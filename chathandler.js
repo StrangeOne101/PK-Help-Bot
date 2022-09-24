@@ -5,27 +5,30 @@ var config = require("./config");
 var discord = require("discord.js");
 const commandsLib = require("./commands");
 
+const reloadEvents = [];
+
 var parentM;
 
 var barred = [];
 
-var emoji_tickbox = "\u2705";
-var emoji_cross = "\u274C";
+const emoji_tickbox = "\u2705";
+const emoji_cross = "\u274C";
 
 function handle(message, sender, channel, msgobj) {
 	//var isOp = sender.id == "145436402107154433"; //ID of the owner of the bot
 	var isOp = config.isOp(sender.id);
+	const pre = config.getCommandPrefix();
 	
-	if (config.isBarred(sender.id) && !isOp) return;
+	if (config.isUserBarred(sender.id) && !isOp) return;
 	if (isChannelIgnored(channel)) return;
 	
-	if (message.startsWith("!")) {
+	if (message.startsWith(pre)) {
 		message = message.toLowerCase();
 		
 		//This cuts the first arg off and splits the rest
-		var args = message.substr(message.substr(1).split(" ")[0].length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
+		var args = message.substr(message.substr(pre.length).split(" ")[0].length + pre.length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
 		try {
-			handleCommand(message.substr(1).split(" ")[0], args, sender, channel, msgobj);
+			handleCommand(message.substr(config.getCommandPrefix().length).split(" ")[0], args, sender, channel, msgobj);
 		} catch (exception) {
 			console.log(exception);
 			send(channel, sender, "An error occurred while running this command. Please check the console.")
@@ -55,6 +58,9 @@ function handleCommand(command, args, sender, channel, msgobj) {
 			send(channel, sender, "Reloading... one moment");
 			config.load();
 			commandsLib.loadCommands();
+			for (callback of reloadEvents) {
+				callback();
+			}
 			fetchChatStuff(function(size) {
 				send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
 			});
@@ -196,4 +202,7 @@ exports.handle = handle;
 exports.fetchChatStuff = fetchChatStuff;
 exports.setParent = function(module) {
 	parentM = module;
+}
+exports.addReloadEvent = (callback) => {
+	reloadEvents.push(callback);
 }

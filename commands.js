@@ -8,6 +8,7 @@ let PREFIX = config.getCommandPrefix();
 function loadCommands() {
 	let dir = path.join(__dirname, "commands");
 	console.log(dir);
+	var command_no = 0;
 	fs.readdir(dir, function(err, files) {
 		if (err) {
 			console.log("Unable to scan commands directory: " + err);
@@ -15,14 +16,20 @@ function loadCommands() {
 		}
 
 		files.forEach(file => {
-			const command = require(path.join(dir, file));
+			let p = path.join(dir, file);
+			const command = require(p);
 
-			if (command.name && command.canRun && command.run) {
-				commands.put(command.name.replace("{prefix}", PREFIX).replace(" ", "-").toLowerCase(), command);
+			if (command.name && command.canUse && command.run) {
+				if (command.disabled && command.disabled === true) {
+					console.log("Command " + file + " disabled")
+				} else {
+					commands.set(command.name.replace("{prefix}", PREFIX).replace(" ", "-").toLowerCase(), command);
+					command_no++;
+				}
 			}
 		});
 
-		console.log("Loaded " + files.length + " commands.");
+		console.log("Loaded " + command_no + " command(s).");
 	});
 }
 
@@ -45,14 +52,16 @@ function getCommand(command) {
 }
 
 function canUseCommand(command, sender) {
-	return isCommand(command) && getCommand(command).canUse !== 'undefined' && getCommand(command).canUse(sender);
+	return isCommand(command) && getCommand(command).canUse(sender);
 }
 
 function runCommand(command, sender, message) {
 	//This cuts the first arg off and splits the rest
-	let args = message.indexOf(' ') == -1 ? [] : message.substr(message.split(" ")[0].length + 1).split(" ");
-
+	const msg = message.content;
+	var args = msg.substr(msg.substr(PREFIX.length).split(" ")[0].length + PREFIX.length + (msg.indexOf(' ') != -1 ? 1 : 0)).split(" ");
+		
 	try {
+		console.log("[#" + message.channel.name + "] " + message.author.username + ": " + message.content);
 		getCommand(command).run(message, message.channel, sender, args);
 	} catch (e) {
 		console.log(e);

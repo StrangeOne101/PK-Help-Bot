@@ -1,0 +1,15 @@
+[
+    {
+        "channel": "suggestions",
+        "reactions": [
+            "👍",
+            "🛠️",
+            "👎"
+        ],
+        "create-thread": true
+    },
+    {
+        "channel": "addons",
+        "reaction": "❤️"
+    }
+]

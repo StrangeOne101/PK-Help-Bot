@@ -1,0 +1,33 @@
+[{
+    "triggers": [
+        "does.+(?:pk|projectkorra).+work.+(?:on|with).+(1\\.\\d{0,2})(?:\\.\\d)?"
+    ],
+    "responses": [
+        {
+            "condition": {
+                "variable": "$1",
+                "type": "equals",
+                "values": [
+                    "1.16",
+                    "1.17",
+                    "1.18",
+                    "1.19"
+                ]
+            },
+            "content": "Yes, ProjectKorra is compatible with Spigot/MC $1! The latest version works on 1.16 all the way through to 1.19.2!"
+        },
+        {
+            "condition": {
+                "variable": "$1",
+                "type": "notequals",
+                "values": [
+                    "1.16",
+                    "1.17",
+                    "1.18",
+                    "1.19"
+                ]
+            },
+            "content": "The latest version of ProjectKorra only works betwwn Spigot/MC 1.16 to 1.19.2. If you want to use an older version of Minecraft, you'll need to use an older version of PK.\n\nCheck the pins in #support to see the versions compatible with what you want."
+        }
+    ]
+}]

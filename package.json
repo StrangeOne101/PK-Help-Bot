@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "discord.js": "^14.3.0"
+  },
+  "name": "iroh-bot",
+  "description": "A Node.js discord bot that matches messages to regex. Made to try help people if staff aren't around.",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StrangeOne101/PK-Help-Bot.git"
+  },
+  "keywords": [],
+  "author": "StrangeOne101",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StrangeOne101/PK-Help-Bot/issues"
+  },
+  "homepage": "https://github.com/StrangeOne101/PK-Help-Bot#readme"
+}
