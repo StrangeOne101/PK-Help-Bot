@@ -51,9 +51,9 @@ client.on("disconnect", function() {
 })
 
 // Create an event listener for messages
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
     if (client.user.id != message.author.id) {
-        ChatHandler.handle(message.content, message.author, message.channel, message);
+        await ChatHandler.handle(message.content, message.author, message.channel, message);
     }
 });
 
