@@ -57,6 +57,20 @@ client.on('messageCreate', async message => {
     }
 });
 
+process.on('uncaughtException', handleException);
+process.on('unhandledRejection', handleException);
+
+async function handleException(e) {
+    console.error(e);
+    if (client.lastUsedChannel !== undefined) {
+        try {
+            await client.lastUsedChannel.send("An error has occured! `" + e + "`");
+        } catch(e) {
+            console.warn("Couldn't log error to lastUsedChannel: ", e);
+        }
+    } else console.warn("No last used channel to log the error to!");
+}
+
 // Log our bot in
 client.login(token);
 

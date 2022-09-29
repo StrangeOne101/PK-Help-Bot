@@ -1,6 +1,7 @@
 const API = require("../api");
 const FS = require("fs");
-const { ThreadChannel, ForumChannel } = require("discord.js")
+const { ThreadChannel, ForumChannel } = require("discord.js");
+const { client } = require("../bot");
 
 let reactionList = [];
 const file = "./config/autoreactor.json";
@@ -25,11 +26,18 @@ async function onTextMessage(message) {
         } else return; 
     }
 
+    if (message.author.id === message.client.user.id) {
+        return; // ignore the message if the message is sent by the bot
+    }
+
     //Loop through all reactions we have in the reaction config
     for (reactionObj of reactionList) {
         
          //If the channel ID or channel name is equal to the channel specified
         if (channel.id === reactionObj.channel || channel.name === reactionObj.channel) {
+
+            message.client.lastUsedChannel = channel;
+
             //If they have multiple reactions to give
             if (reactionObj.reactions) { 
                 for (emoji of reactionObj.reactions) {

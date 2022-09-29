@@ -55,14 +55,14 @@ function canUseCommand(command, sender) {
 	return isCommand(command) && getCommand(command).canUse(sender);
 }
 
-function runCommand(command, sender, message) {
+async function runCommand(command, sender, message) {
 	//This cuts the first arg off and splits the rest
 	const msg = message.content;
 	var args = msg.substr(msg.substr(PREFIX.length).split(" ")[0].length + PREFIX.length + (msg.indexOf(' ') != -1 ? 1 : 0)).split(" ");
 		
 	try {
 		console.log("[#" + message.channel.name + "] " + message.author.username + ": " + message.content);
-		getCommand(command).run(message, message.channel, sender, args);
+		return await getCommand(command).run(message, message.channel, sender, args);
 	} catch (e) {
 		console.log(e);
 	}

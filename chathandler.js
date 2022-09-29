@@ -4,6 +4,7 @@ var http = require("http");
 var config = require("./config");
 var discord = require("discord.js");
 const commandsLib = require("./commands");
+const { client } = require("./bot");
 
 const reloadEvents = [];
 
@@ -26,6 +27,7 @@ async function handle(message, sender, channel, msgobj) {
 		//This cuts the first arg off and splits the rest
 		var args = message.substr(message.substr(pre.length).split(" ")[0].length + pre.length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
 		try {
+			msgobj.client.lastUsedChannel = channel;
 			await handleCommand(message.substr(config.getCommandPrefix().length).split(" ")[0], args, sender, channel, msgobj);
 		} catch (exception) {
 			console.log(exception);
@@ -40,6 +42,7 @@ async function handle(message, sender, channel, msgobj) {
 			
 			var exp = new RegExp(key, "i");
 			if (exp.test(message)) {
+				msgobj.client.lastUsedChannel = channel;
 				await send(channel, sender, msg);
 				break;
 			}
@@ -57,7 +60,7 @@ async function handleCommand(command, args, sender, channel, msgobj) {
 			config.load();
 			commandsLib.loadCommands();
 			for (callback of reloadEvents) {
-				callback();
+				await callback();
 			}
 			const size = await fetchChatStuff();
 			await send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
