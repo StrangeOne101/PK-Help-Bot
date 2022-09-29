@@ -172,7 +172,7 @@ async function getMessage(snowflake, context = undefined) {
  * @param {Snowflake|String} snowflake 
  * @returns True if they are an op
  */
-async function isOp(snowflake) {
+function isOp(snowflake) {
     return config.isOp(getId(snowflake));
 }
 
