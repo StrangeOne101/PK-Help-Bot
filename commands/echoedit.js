@@ -16,7 +16,7 @@ module.exports = {
     name: "echoedit",
     usage: "echoedit <message_id> <new message>",
     description: "Edit a message sent by the bot",
-    canUse: async function(sender) {
+    canUse: function(sender) {
         return isOp(sender.id);
     },
     run: async function(messageObj, channel, sender, args) {

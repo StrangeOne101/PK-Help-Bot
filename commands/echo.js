@@ -15,7 +15,7 @@ module.exports = {
     name: "echo",
     usage: "echo <channel> <message>",
     description: "Send a message to a channel",
-    canUse: async function(sender) {
+    canUse: function(sender) {
         return isOp(sender.id);
     },
     run: async function(messageObj, channel, sender, args) {
