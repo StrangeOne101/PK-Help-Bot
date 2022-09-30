@@ -32,8 +32,8 @@ class ButtonResponse {
             if (old.timeoutId != -1) 
                 clearTimeout(old.timeoutId); //Remove the timeout ask of the old one
             
-            for (let coll of this.collectors) {
-                coll.dispose(); //Remove the old collectors
+            for (let coll of old.collectors) {
+                coll.stop(); //Remove the old collectors
             }
         }
 
