@@ -32,6 +32,16 @@ async function getMember(string, context = undefined) {
 }
 
 /**
+ * Checks whether a member has a role that is within a certain role group.
+ * @param {GuildMember} member The member
+ * @param {String} group The group name
+ * @returns {Boolean}
+ */
+function hasRole(member, group) {
+    return member.roles.cache.some(role => config.getRoles(group).includes(role.id));
+}
+
+/**
  * Gets a channel from the provided snowflake and context
  * @param {Snowflake} string The id of the channel to get
  * @param {Message|TextChannel|Guild} context 
@@ -189,6 +199,7 @@ function subscribe(event, callback) {
 }
 
 module.exports = {
+    hasRole,
     subscribe,
     isBlacklisted,
     isOp,

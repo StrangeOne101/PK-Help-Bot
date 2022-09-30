@@ -90,9 +90,14 @@ function getQuietChannels() {
 	return typeof config.QuietChannels === 'undefined' ? [] : config.QuietChannels;
 }
 
+function getRoles(group) {
+	return config.Roles && Array.isArray(config.Roles[group]) ? config.Roles[group] : [];
+}
+
 //ES6
 module.exports = {
 	getToken,
+	getRoles,
 	getURL,
 	getSplit,
 	getIgnoredChannels,
