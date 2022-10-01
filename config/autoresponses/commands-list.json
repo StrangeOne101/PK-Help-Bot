@@ -1,0 +1,4 @@
+{
+    "trigger": "\\.commands",
+    "response": "Command List:\n\n`.jedcore`\n`.langprefix`"
+}
