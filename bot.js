@@ -6,11 +6,6 @@ config.load();
 const ChatHandler = require("./chathandler");
 const CommandsLib = require("./commands");
 
-//Make sure all exceptions don't kill the bot
-process.on('uncaughtException', (err) => {
-    console.error(err.stack);
-});
-
 // Create an instance of a Discord client
 const client = new Client({
     intents: [
@@ -51,11 +46,25 @@ client.on("disconnect", function() {
 })
 
 // Create an event listener for messages
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
     if (client.user.id != message.author.id) {
-        ChatHandler.handle(message.content, message.author, message.channel, message);
+        await ChatHandler.handle(message.content, message.author, message.channel, message);
     }
 });
+
+process.on('uncaughtException', handleException);
+process.on('unhandledRejection', handleException);
+
+async function handleException(e) {
+    console.error(e);
+    if (client.lastUsedChannel !== undefined) {
+        try {
+            await client.lastUsedChannel.send("An error has occured! `" + e + "`");
+        } catch(e) {
+            console.warn("Couldn't log error to lastUsedChannel: ", e);
+        }
+    } else console.warn("No last used channel to log the error to!");
+}
 
 // Log our bot in
 client.login(token);

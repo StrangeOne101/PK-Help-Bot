@@ -253,23 +253,23 @@ class CollectiveResponse {
         return {content: text, components: components}
     }
 
-    reply(message, matches) {       
+    async reply(message, matches) {
         for (let res of this.responses) {
             let text = res.respond(message, matches);
             if (text !== undefined) {
                 let contents = this.__make(message, text);
-                message.reply(contents);
+                await message.reply(contents);
                 break;
             }
         }
     }
 
-    edit(message, interaction) {
+    async edit(message, interaction) {
         for (let res of this.responses) {
             let text = res.respond(message, []);
             if (text !== undefined) {
                 let contents = this.__make(message, text);
-                interaction.update(contents);
+                await interaction.update(contents);
                 break
             }
         }
@@ -293,10 +293,11 @@ async function getFiles(dir) {
 async function loadResponses() {
     let dir = PATH.join(__dirname, "../config/autoresponses");
 	console.log(dir);
-	getFiles(dir).then(files => {
-		files.forEach(file => { 
-			let path = file.substr(dir.length);
-			let json = JSON.parse(FS.readFileSync(file, 'utf8'));
+    try {
+        const files = await getFiles(dir);
+        files.forEach(file => { 
+            let path = file.substr(dir.length);
+            let json = JSON.parse(FS.readFileSync(file, 'utf8'));
 
             if (Array.isArray(json)) {
                 for (let o of json) {
@@ -305,15 +306,13 @@ async function loadResponses() {
             } else {
                 addResponse(json, path);
             }
-		});
+        });
 
-		console.log("Loaded " + regexMap.size + " regex replies(s).");
-	}).catch(err => {
-        if (err) {
-			console.log("Unable to scan autoresponses directory: " + err);
-			return;
-		}
-    });
+        console.log("Loaded " + regexMap.size + " regex replies(s).");
+    } catch(err) {
+		console.log("Unable to scan autoresponses directory: " + err);
+    }
+
 }
 
 function addResponse(object, file) {
@@ -345,8 +344,12 @@ async function onTextMessage(message) {
     //Loop through all triggers we have load
     for (trigger of regexMap.keys()) {
         if (trigger.test(msg)) {
+            message.client.lastUsedChannel = channel;
             let collectiveResponse = regexMap.get(trigger);
-            collectiveResponse.reply(message, msg.match(trigger)); //Reply with the collective response
+            collectiveResponse.reply(message, msg.match(trigger)).catch(e => {
+                console.error(`Error auto-responding to message ${message.id}`, e);
+                message.reply("An error occured. Please check the console");
+            }); //Reply with the collective response
             return;
         }
     }
