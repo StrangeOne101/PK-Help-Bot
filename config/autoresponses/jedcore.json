@@ -1,14 +1,14 @@
 [{
     "triggers": [
         "\\.jedcore",
-        "((where|can (i|someone)).+(link.+to|find|download|get).+jed ?core)|(where.+(is|did).+jed ?core)|(can.{0,3}t.+(find).+jed ?core)"
+        "(((where|can (i|someone)).+(link.+to|find|download|get).+jed ?core)|(where.+(is|did).+jed ?core)|(can.{0,3}t.+(find).+jed ?core))[?!.]{0,5}"
     ],
     "response": "JedCore is currently maintained by Aztl and is avaliable via GitHub. Click the buttons bellow for a link",
     "buttons": [
         "GitHub Page",
         "https://github.com/Aztlon/JedCore/releases",
         "Direct Download",
-        "https://github.com/Aztlon/JedCore/releases/download/2.10.0/JedCore-2.10.0-Spigot1.18-PK1.9.3.jar"
+        "https://github.com/Aztlon/JedCore/releases/download/2.11.0/JedCore-2.11.0-Spigot1.18-PK1.10.0.jar"
     ]
 
 }]

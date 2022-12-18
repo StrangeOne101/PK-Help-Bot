@@ -1,6 +1,6 @@
 [{
     "triggers": [
-        "can.+(i.+(get|have)(.+some)?|someone).+help"
+        "can.+(i.+(get|have)(.+some)?|someone).+help( (pls|please))?[?!.]{0,5}$"
     ],
     "response": "What would you like help in?",
     "buttons": [
@@ -11,6 +11,8 @@
         "Permissions",
         "helpme/permissions.json",
         "Configuration",
-        "helpme/configuration.json"
+        "helpme/configuration.json",
+        "Other",
+        "helpme/other.json"
     ]
 }]

@@ -74,7 +74,7 @@ class ButtonResponse {
             let collector = this.message.channel.createMessageComponentCollector(
                 {
                     //If the person clicking is either staff or the user who asked
-                    filter: interaction => (interaction.user.id == this.message.author.id || API.hasRole(interaction.user, "Staff")) && 
+                    filter: interaction => (interaction.user.id == this.message.author.id || API.hasRole(interaction.member, "extended")) && 
                         interaction.customId == id, 
                     time: 1_800_000
                 });

@@ -1,0 +1,14 @@
+[{
+    "triggers": [
+        "\\.avatarstate",
+        "(why (can.{0,3}t (you|i)|can (you|i) not)|how.+(can|do).+(i|you)).+(use|bind|get).+avatar ?state[?!.]{0,5}"
+    ],
+    "response": "AvatarState can't be bound due to a bug that only occurs in 1.19. You can fix this by adding the `bending.avatar` permission to yourself for now.\n\nYou will need a permission plugin, like LuckPerms, to add this permission node.",
+    "buttons": [
+        "LuckPerms on Spigot",
+        "https://www.spigotmc.org/resources/luckperms.28140/",
+        "LuckPerms Wiki on \"How to add permissions\"",
+        "https://luckperms.net/wiki/Usage"
+    ]
+
+}]

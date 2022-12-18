@@ -1,0 +1,13 @@
+{
+    "response": "If none of these topics have what you are looking for, please explain your issue clearly and wait for our support team to help!",
+    "buttons": [
+        "Plugin Usage",
+        "helpme/usage.json",
+        "Installation",
+        "helpme/install.json",
+        "Permissions",
+        "helpme/permissions.json",
+        "Configuration",
+        "helpme/configuration.json"
+    ]
+}

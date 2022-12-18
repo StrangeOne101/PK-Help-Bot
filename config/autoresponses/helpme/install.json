@@ -6,6 +6,8 @@
         "Permissions",
         "helpme/permissions.json",
         "Configuration",
-        "helpme/configuration.json"
+        "helpme/configuration.json",
+        "Other",
+        "helpme/other.json"
     ]
 }

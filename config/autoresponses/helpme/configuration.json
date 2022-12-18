@@ -1,11 +1,13 @@
 {
-    "response": "To install ProjectKorra, download the plugin jar and put it inside your server's `plugins` folder. After you reboot your server, the plugin will be installed.\n\nSome hosts will automate this process for you. But as long as you have the correct ProjectKorra version for whatever version of Spigot you are running, you should be fine.\n\nClick the buttons bellow if you need help in any further topics.",
+    "response": "**The Main Config**\nThe main ProjectKorra config can be found at `/plugins/ProjectKorra/config.yml`. Inside this file contains the configuration for most of the plugin. This includes:\n- Enabling and Disabling abilities\n- The damage, range, cooldowns, etc, for each ability\n- The list of blocks that can be used to bend\nAnd way more. We recommend using Ctrl + F to search for what you are looking for. \n\n**The Language Config**\nThe language config can be found at `/plugins/ProjectKorra/language.yml`. It contains all the messages ProjectKorra has, including the colors of all the elements, whether to use ProjectKorra formatting or not, the different prefixes for each element, etc.\n\n**Custom Abilities**\nCustom abilities go into the `/plugins/ProjectKorra/Abilities` folder. Then when you reload bending (`/b reload`) or restart your server, those abilities will be active.\nNote: Side Plugins do not go in this folder. Be sure to read the installation for ability packs on their resource page!",
     "buttons": [
         "Plugin Usage",
         "helpme/usage.json",
         "Permissions",
         "helpme/permissions.json",
         "Installation",
-        "helpme/install.json"
+        "helpme/install.json",
+        "Other",
+        "helpme/other.json"
     ]
 }
