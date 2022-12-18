@@ -55,20 +55,26 @@ class ButtonResponse {
         let intid = this.buttons.length;
         let id = this.message.id + "_" + String(intid);
 
+        if (this.message.editedTimestamp !== undefined) {
+            id = this.message.id + "_" + String(this.message.editedTimestamp) + String(intid)
+        }
+
         let button = new ButtonBuilder();
+        let isLink = link.startsWith("https://") || link.startsWith("http://") || link.startsWith("www.");
         button.setLabel(text);
-        button.setCustomId(id);
-        if (link.startsWith("https://") || link.startsWith("http://") || link.startsWith("www.")) {
+        if (isLink) {
             button.setURL(link);
             button.setStyle(ButtonStyle.Link);
         } else {
             button.setStyle(ButtonStyle.Secondary);
+            button.setCustomId(id);
         }
 
-        if (callback !== undefined) {
+        if (callback !== undefined && !isLink) {
             let collector = this.message.channel.createMessageComponentCollector(
                 {
-                    filter: interaction => interaction.user.id == this.message.author.id && 
+                    //If the person clicking is either staff or the user who asked
+                    filter: interaction => (interaction.user.id == this.message.author.id || API.hasRole(interaction.user, "Staff")) && 
                         interaction.customId == id, 
                     time: 1_800_000
                 });
