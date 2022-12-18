@@ -1,13 +1,7 @@
 {
     "response": "To install ProjectKorra, download the plugin jar and put it inside your servers' `plugins` folder. After you reboot your server, the plugin will be installed.\n\nSome hosts will automate this process for you. But as long as you have the correct ProjectKorra version for whatever version of Spigot you are running, you should be fine.\n\nClick the buttons bellow if you need help in any further topics.",
     "buttons": [
-        "Plugin Usage",
-        "helpme/usage.json",
-        "Permissions",
-        "helpme/permissions.json",
-        "Configuration",
-        "helpme/configuration.json",
-        "Other",
-        "helpme/other.json"
+        "Back",
+        "helpme.json"
     ]
 }
