@@ -1,0 +1,15 @@
+[
+    {
+        "triggers": [
+            "^\\.addons",
+            "(((how|where).+(can i|do (you|i)).+(put|get|install|down ?load).+(addons|(custom|new).+abilit(y|ies))))"
+        ],
+        "response": "You can download addon abilties from the forums and then put them in your `/plugins/ProjectKorra/Abilities` directory. Click the button bellow for a link.\n\nSide plugins ALWAYS go into the `/plugins/` folder, and ability packs _generally_ go into the `/plugins/` folder. So read the installation guide on the resource pack before installing. This includes things like JedCore, ProjectAddons, Hyperion, Spirits, BendingGUI, etc.",
+        "buttons": [
+            "Custom Abilities Link",
+            "https://projectkorra.com/forum/resources/categories/custom-abilities.3/",
+            "I'm on Aternos",
+            "aternos.json"
+        ]
+    }
+]

@@ -1,0 +1,15 @@
+{
+    "triggers": [
+        "^\\.download",
+        "(((where|how).+(can i|do (you|i)).+(down ?load|get).+(project ?korra|pk)))"
+    ],
+    "response": "You can download ProjectKorra from the ProjectKorra forums, from Spigot, or from GitHub. Click the buttons bellow for a link.",
+    "buttons": [
+        "PK Forums",
+        "https://projectkorra.com/forum/resources/projectkorra-core.1/",
+        "Spigot",
+        "https://www.spigotmc.org/resources/projectkorra-core.2734/",
+        "GitHub",
+        "https://github.com/ProjectKorra/ProjectKorra/releases"
+    ]
+}
