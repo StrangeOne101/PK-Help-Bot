@@ -1,10 +1,7 @@
-var chatMap = new Map();
-
 var http = require("http");
 var config = require("./config");
 var discord = require("discord.js");
 const commandsLib = require("./commands");
-const { client } = require("./bot");
 
 const reloadEvents = [];
 
@@ -33,20 +30,6 @@ async function handle(message, sender, channel, msgobj) {
 			console.log(exception);
 			await send(channel, sender, "An error occurred while running this command. Please check the console.")
 		}
-		
-		
-	} else {
-		for (var [key, msg] of chatMap.entries()) {			
-			//console.log("Debug message: " + message + " | key: " + key);
-			msg = msg.replace("{SENDER}", sender);
-			
-			var exp = new RegExp(key, "i");
-			if (exp.test(message)) {
-				msgobj.client.lastUsedChannel = channel;
-				await send(channel, sender, msg);
-				break;
-			}
-		}
 	}
 }
 
@@ -62,11 +45,10 @@ async function handleCommand(command, args, sender, channel, msgobj) {
 			for (callback of reloadEvents) {
 				await callback();
 			}
-			const size = await fetchChatStuff();
-			await send(channel, sender, "Reload successful! Loaded " + size + " regex commands!");
+			await send(channel, sender, "Reload successful!");
 			return;
 		} else if (command == "latency") {
-			await send(channel, sender, "Current ping: " + parentM.client.ping);
+			await send(channel, sender, `Latency is ${Date.now() - msgobj.createdTimestamp}ms. API Latency is ${Math.round(msgobj.client.ws.ping)}ms`);
 			return;
 		} else if (command == "bar") {
 			if (msgobj.mentions.users.size == 0) {
@@ -100,32 +82,6 @@ async function handleCommand(command, args, sender, channel, msgobj) {
 		}
 	}
 
-}
-
-/**
- * Fetches all chat stuff 
- */
-async function fetchChatStuff() {
-	chatMap.clear();
-	
-	const html = await request(config.getURL());
-	for (var line of html.split("\n")) {
-		if (line.lastIndexOf(config.getSplit()) !== -1) { //If line contains '>>'
-			var regex = line.substr(0, line.lastIndexOf(config.getSplit())); //Get the first part of the string
-			var line = line.substr(line.lastIndexOf(config.getSplit()) + config.getSplit().length, line.length); //Get the last part of the string
-			
-			regex = regex.trim(); //Removes extra spaces
-			line = line.trim();
-			
-			chatMap.set(regex, line);
-			console.log("Registered #" + chatMap.size + " regex command");
-		}
-	}
-	
-	console.log("Finished loading regex expressisons!");
-	
-	
-	return chatMap.size;
 }
 
 /**
@@ -197,7 +153,6 @@ function request(url) {
 	});
 }
 exports.handle = handle;
-exports.fetchChatStuff = fetchChatStuff;
 exports.setParent = function(module) {
 	parentM = module;
 }

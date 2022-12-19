@@ -23,7 +23,6 @@ function save() {
 	if (typeof config.BarredUsers === 'undefined') config.BarredUsers = [];
 	if (typeof config.Ops === 'undefined') config.Ops = [];
 	if (typeof config.Token === 'undefined') config.Token = "***insertTokenHere***";
-	if (typeof config.URL === 'undefined') config.URL = "https://pastebin.com/raw/zYBsBi5R";
 	if (typeof config.Split === 'undefined') config.Split = ">>";
 	if (typeof config.CommandPrefix === 'undefined') config.CommandPrefix = "!";
 	try {
@@ -62,10 +61,6 @@ function getToken() {
 	return typeof config.Token === 'undefined' ? "***insertTokenHere***" : config.Token;
 }
 
-function getURL() {
-	return config.URL;
-}
-
 function getSplit() {
 	return typeof config.Split === 'undefined' ? ">>" : config.Split;
 }
@@ -98,7 +93,6 @@ function getRoles(group) {
 module.exports = {
 	getToken,
 	getRoles,
-	getURL,
 	getSplit,
 	getIgnoredChannels,
 	getQuietChannels,

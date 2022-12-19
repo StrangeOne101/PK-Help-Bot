@@ -31,8 +31,6 @@ client.on('ready', async () => {
     console.log(`Generated bot invite link: ${link}`);
     
     ChatHandler.setParent(instance);
-    console.log("Fetching regex commands...");
-    ChatHandler.fetchChatStuff();
     CommandsLib.loadCommands();
     require("./modulehandler"); //Load modules after load
     
