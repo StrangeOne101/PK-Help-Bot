@@ -3,7 +3,7 @@
         "^\\.aternos",
         "(how.+(can|do).+(i|you)|is.+there.+(a |any ?)way).+(install|get|upload).+add( |-)?ons.+(in|on|to).+aternos"
     ],
-    "response": "Unfortunately, Aternos does not allow you to upload any jar files to the server. This means you cannot install the latest version of JedCore or any custom abilities for ProjectKorra.\n\nWe recommend using another host instead. You can either\n- Self Host (Host it on your own computer)\n- `server.pro` (An alternate to Aternos, allows you to upload jars)\n- Minehut (Another alternate to Aternos)",
+    "response": "Unfortunately, Aternos does not allow you to upload any jar files to the server. This means you cannot install the latest version of JedCore or any custom abilities for ProjectKorra.\n\nWe recommend using another host instead. You can either\n- Self Host (Host it on your own computer)\n- Use `server.pro` (An alternate to Aternos, allows you to upload jars)\n- Use Minehut (Another alternate to Aternos)",
     "buttons": [
         "Self Host Tutorial",
         "https://www.youtube.com/watch?v=d1vzYR0I22g",
