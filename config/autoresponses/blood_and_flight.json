@@ -1,0 +1,36 @@
+{
+    "triggers": [
+        "^\\.(flight)",
+        "^\\.(blood)",
+        "(?:is there a(?:ny)? ?way (?:that (?:i|you) (?:can|able)|to (?:be|make).+able)|how (?:can|do).+(?:i|you)).+use (blood(?:bending)?|flight).+without.+(?:op|permission)"
+    ],
+    "responses": [
+        {
+            "condition": {
+                "variable": "$1",
+                "type": "equals",
+                "values": [
+                    "blood",
+                    "bloodbending"
+                ]
+            },
+            "content": "Bloodbending requires two permissions to use without op.\n\n`bending.water.bloodbending` for players to gain the Blood subelement when they choose water. This will allow them to use any blood abilities they have permission for.\nNote: All existing waterbenders will need to either rechoose water to get blood OR you can manually add it with `/b add blood <player>`\n`bending.ability.bloodbending` for the default Bloodbending ability shipped in PK.\nIf you have any addon abilities for the blood subelement, you may also have to add the permission for them, too.\n\nIf you are unfamiliar with the process of adding permissions, you will need a permission plugin like LuckPerms. Click the buttons bellow for more info."
+        },
+        {
+            "condition": {
+                "variable": "$1",
+                "type": "equals",
+                "values": [
+                    "flight"
+                ]
+            },
+            "content": "Flight requires two permissions to use without op.\n\n`bending.air.flight` for players to gain the Flight subelement when they choose air. This will allow them to use any flight subelement abilities they have permission for.\nNote: All existing airbenders will need to either rechoose air to get flight OR you can manually add it with `/b add flight <player>`\n`bending.ability.flight` for the default Flight ability shipped in PK.\nIf you have any addon abilities for the flight subelement, you may also have to add the permission for them, too.\n\nIf you are unfamiliar with the process of adding permissions, you will need a permission plugin like LuckPerms. Click the buttons bellow for more info."
+        }
+    ],
+    "buttons": [
+        "LuckPerms on Spigot",
+        "https://www.spigotmc.org/resources/luckperms.28140/",
+        "LuckPerms Usage (Wiki)",
+        "https://luckperms.net/wiki/Usage"
+    ]
+}
