@@ -1,6 +1,6 @@
 {
     "triggers": [
-        "\\.langprefix",
+        "^\\.langprefix",
         "(?:is it possible|(?:how do|can) (?:i|you)|(?:am i|you) able).+(?:remove|change|edit).+(?:(?:projectkorra|pk).+prefix.+(?:chat|prefix)|prefix.+(?:command|chat|plugin|projectkorra|pk))[?!.]{0,5}"
     ],
     "response": "You can change the 'ProjectKorra' prefix before commands by editing the `language.yml` file.\n\nIf it doesn't work after a `/pk reload`, make sure you are on at least PK version 1.10.0"

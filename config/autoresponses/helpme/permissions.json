@@ -1,5 +1,8 @@
 [{
-    "trigger": "\\.perms",
+    "triggers": [
+        "^\\.perms",
+        "((what.{0,2}s|what are|(are|is) there|can.+(link|find)).+((perms|permissions).+(pk|project ?korra)|(pk|project ?korra).+(perms|permissions)))"
+    ],
     "response": "Here is a list of the basic permission nodes in ProjectKorra!\n\nCommands: `bending.command.<command>`\nAbilities: `bending.ability.<abilityname>`\nPerm to change your bending: `bending.command.rechoose`\nPerm for subelements: `bending.<element>.<sub>`. (Example: `bending.earth.lavabending`\n\nFor a full list of permissions, click the button bellow.",
     "buttons": [
         "Full Permissions List",

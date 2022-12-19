@@ -1,6 +1,6 @@
 [{
     "triggers": [
-        "\\.jedcore",
+        "^\\.jedcore",
         "(((where|can (i|someone)).+(link.+to|find|download|get).+jed ?core)|(where.+(is|did).+jed ?core)|(can.{0,3}t.+(find).+jed ?core))[?!.]{0,5}"
     ],
     "response": "JedCore is currently maintained by Aztl and is avaliable via GitHub. Click the buttons bellow for a link",

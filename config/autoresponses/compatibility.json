@@ -1,6 +1,6 @@
 [{
     "triggers": [
-        "does.+(?:pk|projectkorra).+work.+(?:on|with).+(1\\.\\d{0,2})(?:\\.\\d)?[?!.]{0,5}"
+        "does.+(?:pk|projectkorra|(?:this|the) plug ?in).+work.+(?:on|with).+(1\\.\\d{0,2})(?:\\.\\d)?[?!.]{0,5}"
     ],
     "responses": [
         {

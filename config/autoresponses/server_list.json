@@ -1,6 +1,6 @@
 {
     "triggers": [
-        "\\.ownerrole",
+        "^\\.serverlist",
         "(what.+(do.+(i|you).+(have|need)|(does|('?s|is)).+it.+take|('?s|is).+required|is.+needed).+to|how.+(do|can).+(i|you)).(get|add|be).+(((my.+server.+(on|to|in).+the.+list)|on.+the.+server.+list)|owner.+role)[?!.]{0,5}"
     ],
     "response": "If you fill out this application, the staff will review it when they are free, and will then add your server to the server list.\n\nWe look forward to your application!",

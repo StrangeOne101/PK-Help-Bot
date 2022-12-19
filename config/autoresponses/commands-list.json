@@ -1,4 +1,4 @@
 {
-    "trigger": "\\.commands",
-    "response": "Command List:\n\n`.jedcore`\n`.langprefix`\n`.avatarstate`\n`.ownerrole`"
+    "trigger": "^\\.commands",
+    "response": "Command List:\n\n`.jedcore`\n`.langprefix`\n`.avatarstate`\n`.serverlist`\n`.perms`"
 }
