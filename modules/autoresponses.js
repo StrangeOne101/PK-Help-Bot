@@ -299,6 +299,10 @@ async function getFiles(dir) {
 async function loadResponses() {
     let dir = PATH.join(__dirname, "../config/autoresponses");
 	console.log(dir);
+
+    regexMap.clear(); //Reset the maps!
+    fileMap.clear();
+
     try {
         const files = await getFiles(dir);
         files.forEach(file => { 
@@ -326,16 +330,20 @@ function addResponse(object, file) {
     let collectiveResponse = new CollectiveResponse(object, file);
     fileMap.set(file, collectiveResponse);
 
+    let trigs = 0;
     for (let trigger of object.triggers || [object.trigger] || []) {
         if (trigger != '' && trigger !== undefined) {
             try {
                 let reg = new RegExp(trigger, "i");
                 regexMap.set(reg, collectiveResponse);
-                console.log("Added response for file " + file);
+                trigs++;
             } catch (e) {
                 console.warn("Invalid regex in " + file + ": " + trigger);
             }
         }
+    }
+    if (trigs > 0) {
+        console.log("Added " + trigs + " regex triggers for file " + file);
     }
 }
 
