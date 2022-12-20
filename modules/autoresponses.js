@@ -18,6 +18,8 @@ const FUNC_EQUALS = (s1, s2) => s1 == s2;
 const FUNC_STARTS_WITH = (s1, s2) => s1.startsWith(s2);
 const FUNC_ENDS_WITH = (s1, s2) => s1.endsWith(s2);
 
+const CMD_REGEX = /^\.[a-zA-Z0-9-_]{3,}/gi;
+
 class ButtonResponse {
 
     static collectMap = new Map();
@@ -74,7 +76,8 @@ class ButtonResponse {
             let collector = this.message.channel.createMessageComponentCollector(
                 {
                     //If the person clicking is either staff or the user who asked
-                    filter: interaction => (interaction.user.id == this.message.author.id || API.hasRole(interaction.member, "extended")) && 
+                    filter: interaction => (interaction.user.id == this.message.author.id || API.hasRole(interaction.member, "staff") || //If it was the author or staff
+                    (this.message.repliedTo !== undefined && interaction.user.id == this.message.repliedTo.author.id)) && //OR let the intended person respond to it
                         interaction.customId == id, 
                     time: 1_800_000
                 });
@@ -260,11 +263,23 @@ class CollectiveResponse {
     }
 
     async reply(message, matches) {
+        let command = CMD_REGEX.test(matches[0]); //Boolean, whether it is a dot command or not
+
         for (let res of this.responses) {
             let text = res.respond(message, matches);
             if (text !== undefined) {
+                if (command && message.reference !== undefined) { //If its a dot command & they replied to a message
+                    message.repliedTo = await message.channel.messages.fetch(message.reference.messageId); //Find what message they replied to, if they did.
+                    //And then store it in the message obj so other methods can access it
+                }
                 let contents = this.__make(message, text);
-                await message.reply(contents);
+                
+                if (message.repliedTo !== undefined) {
+                    await message.repliedTo.reply(contents); //Reply to the intended user
+                } else {
+                    await message.reply(contents); //Reply to default user
+                }
+                
                 break;
             }
         }
