@@ -268,7 +268,7 @@ class CollectiveResponse {
         for (let res of this.responses) {
             let text = res.respond(message, matches);
             if (text !== undefined) {
-                if (command && message.reference !== undefined) { //If its a dot command & they replied to a message
+                if (command && message.reference !== null && message.reference.messageId !== null) { //If its a dot command & they replied to a message
                     message.repliedTo = await message.channel.messages.fetch(message.reference.messageId); //Find what message they replied to, if they did.
                     //And then store it in the message obj so other methods can access it
                 }
