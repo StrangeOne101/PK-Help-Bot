@@ -1,8 +1,18 @@
 [{
     "triggers": [
-        "does.+(?:pk|projectkorra|(?:this|the) plug ?in).+work.+(?:on|with).+(1\\.\\d{0,2})(?:\\.\\d)?[?!.]{0,5}"
+        "does.+(?:pk|projectkorra|(?:this|the) plug ?in).+(?:work|run).+(?:on|with|for).+(1\\.\\d{0,2}(?:\\.\\d)?|(?:the )?latest)[?!.]{0,5}"
     ],
     "responses": [
+        {
+            "condition": {
+                "variable": "$1",
+                "type": "equals",
+                "values": [
+                    "latest"
+                ]
+            },
+            "content": "Yes, ProjectKorra is compatible with Spigot/MC 1.19! The latest version works on 1.16 all the way through to 1.19.3!"
+        },
         {
             "condition": {
                 "variable": "$1",
@@ -24,10 +34,17 @@
                     "1.16",
                     "1.17",
                     "1.18",
-                    "1.19"
+                    "1.19",
+                    "latest"
                 ]
             },
-            "content": "The latest version of ProjectKorra only works betwwn Spigot/MC 1.16 to 1.19.3. If you want to use an older version of Minecraft, you'll need to use an older version of PK.\n\nCheck the pins in <#300990411353358336> to see the versions compatible with what you want."
+            "content": "The latest version of ProjectKorra only works between Spigot/MC 1.16 to 1.19.3. If you want to use an older version of Minecraft, you'll need to use an older version of PK.\n\nCheck the pins in <#300990411353358336> to see the versions compatible with what you want."
         }
     ]
+},
+{
+    "triggers": [
+        "(what|which).+versions?.+(does.+(pk|projectkorra|the plugin).+((run|work) (with|on|for))|do.+((you|i).+(need|require)).+to.+(run|use).+(pk|projectkorra|the plugin)|is.+(pk|projectkorra|the plugin).+((work|compatible) (for|with))|of.+(minecraft|mc|spigot).+(works (on|with|for)|runs).+(pk|projectkorra|the plugin))([?!.]{0,5}|$)"
+    ],
+    "response": "The latest version of ProjectKorra works for Spigot/MC 1.16 to 1.19.3. If you want to use an older version of Minecraft, you'll need to use an older version of PK.\n\nCheck the pins in <#300990411353358336> to see the versions compatible with what you want."
 }]
