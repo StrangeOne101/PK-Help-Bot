@@ -18,7 +18,7 @@ const FUNC_EQUALS = (s1, s2) => s1 == s2;
 const FUNC_STARTS_WITH = (s1, s2) => s1.startsWith(s2);
 const FUNC_ENDS_WITH = (s1, s2) => s1.endsWith(s2);
 
-const CMD_REGEX = /^\.[a-zA-Z0-9-_]{3,}/gi;
+const CMD_REGEX = /^\.[a-zA-Z0-9-_]{3,}/i;
 
 class ButtonResponse {
 
