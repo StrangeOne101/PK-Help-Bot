@@ -1,0 +1,14 @@
+[{
+    "triggers": [
+        "^\\.luckperms",
+        "how.+(do|can).+(i|you).+((add|configure).+(perms|permissions)|(use.+(perms|permissions|luck ?perms?))"
+    ],
+    "response": "To add/configure permissions on your server, you will need a permission plugin such as LuckPerms. LuckPerms is considered the best and most powerful permission plugin to date.\n\nIf you are new to LuckPerms, we recommend you take a good read of their wiki on how to use it. You can click the buttons bellow",
+    "buttons": [
+        "LuckPerms on Spigot",
+        "https://www.spigotmc.org/resources/luckperms.28140/",
+        "LuckPerms Wiki on \"How to add permissions\"",
+        "https://luckperms.net/wiki/Usage"
+    ]
+
+}]
