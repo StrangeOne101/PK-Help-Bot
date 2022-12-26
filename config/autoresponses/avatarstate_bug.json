@@ -1,7 +1,7 @@
 [{
     "triggers": [
         "^\\.avatarstate",
-        "(why (can.{0,3}t (you|i)|can (you|i) not)|how.+(can|do).+(i|you)|i.+can.{0,3}t|it (will not|won'?t).+(let|allow).+(me|you)).+(use|bind|get|fix|enter).+avatar ?(state|moves|abilities|ability)[?!.]{0,5}"
+        "((why (can.{0,3}t (you|i)|can (you|i) not)|how.+(can|do).+(i|you)|i.+can.{0,3}t|it (will not|won'?t).+(let|allow).+(me|you)).+(use|bind|get|fix|enter).+avatar ?(state|moves|abilities|ability)[?!.]{0,5})|(if|when).+(you|i).+(run|use|do).+\/(b|bending|pk) (b|bind) avatarstate.+(it.+(tells.+(you|me)|says)|i .*get).+(i|you).+(do not|don'?t) have perm(isson)?.+(even|but|yet).+i .*(am|are|have).+(op|avatar)"
     ],
     "response": "AvatarState can't be bound due to a bug that only occurs in 1.19. You can fix this by adding the `bending.avatar` permission to yourself for now.\n\nYou will need a permission plugin, like LuckPerms, to add this permission node.",
     "buttons": [

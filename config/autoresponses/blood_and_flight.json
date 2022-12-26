@@ -2,7 +2,7 @@
     "triggers": [
         "^\\.(flight)",
         "^\\.(blood)",
-        "(?:is there a(?:ny)? ?way (?:that (?:i|you) (?:can|able)|to (?:be|make).+able)|how (?:can|do).+(?:i|you)).+use (blood(?:bending)?|flight).+without.+(?:op|permission)"
+        "(?:is there a(?:ny)? ?way (?:that (?:i|you) (?:can|able)|to (?:be|make).+able)|how (?:can|do).+(?:i|you)).+(?:use|get) (blood(?:bending)?|flight).+without.+(?:op|permission)"
     ],
     "responses": [
         {
