@@ -313,7 +313,6 @@ async function getFiles(dir) {
  */
 async function loadResponses() {
     let dir = PATH.join(__dirname, "../config/autoresponses");
-	console.log(dir);
 
     regexMap.clear(); //Reset the maps!
     fileMap.clear();

@@ -1,8 +1,9 @@
-var fs = require("fs");
+const fs = require("fs");
 
 var config = {};
 
-var file = "./config/config.json";
+const file = "./config/config.json";
+const tokenFile = "./config/token.txt";
 
 //Get document, or throw exception on error
 
@@ -12,6 +13,17 @@ function load() {
 		console.log("Loading config...");
 		config = JSON.parse(fs.readFileSync(file, 'utf8'));
 		console.log("JSON Config loaded!");
+		if (!fs.existsSync(tokenFile)) {
+			console.log(`No token file found! Please insert your token into ${tokenFile}!`);
+			fs.appendFileSync(tokenFile, "Please insert your token here!", "utf8");
+			return false;
+		}
+		let token = fs.readFileSync(tokenFile, 'utf8');
+		if (token.indexOf(" ") > -1 || token == "" || token.length < 10) {
+			console.log(`You haven't provided your token! Please insert it into ${tokenFile}!`);
+			return false;
+		}
+		config.Token = token;
 	} catch (e) {
 		console.log(e);
 		return false;
@@ -22,8 +34,6 @@ function load() {
 function save() {
 	if (typeof config.BarredUsers === 'undefined') config.BarredUsers = [];
 	if (typeof config.Ops === 'undefined') config.Ops = [];
-	if (typeof config.Token === 'undefined') config.Token = "***insertTokenHere***";
-	if (typeof config.Split === 'undefined') config.Split = ">>";
 	if (typeof config.CommandPrefix === 'undefined') config.CommandPrefix = "!";
 	try {
 		fs.writeFileSync(file, JSON.stringify(config));
@@ -58,7 +68,7 @@ function isOp(id) {
 }
 
 function getToken() {
-	return typeof config.Token === 'undefined' ? "***insertTokenHere***" : config.Token;
+	return typeof config.Token === 'undefined' ? "" : config.Token;
 }
 
 function getSplit() {
@@ -69,20 +79,8 @@ function getCommandPrefix() {
 	return typeof config.CommandPrefix === 'undefined' ? "!" : config.CommandPrefix;
 }
 
-function getDefaultChannelType() {
-	return typeof config.DefaultChannelType === 'undefined' ? "quiet" : config.DefaultChannelType;
-}
-
 function getIgnoredChannels() {
 	return typeof config.IgnoredChannels === 'undefined' ? [] : config.IgnoredChannels;
-}
-
-function getLoudChannels() {
-	return typeof config.LoudChannels === 'undefined' ? [] : config.LoudChannels;
-}
-
-function getQuietChannels() {
-	return typeof config.QuietChannels === 'undefined' ? [] : config.QuietChannels;
 }
 
 function getRoles(group) {
@@ -95,9 +93,6 @@ module.exports = {
 	getRoles,
 	getSplit,
 	getIgnoredChannels,
-	getQuietChannels,
-	getLoudChannels,
-	getDefaultChannelType,
 	getCommandPrefix,
 	isOp,
 	unbarUser,

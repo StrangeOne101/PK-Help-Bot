@@ -1,10 +1,12 @@
 const { Client, GatewayIntentBits, PermissionsBitField } = require('discord.js');
 const http = require("http");
 const config = require("./config");
-console.log('******* Bot starting *******');
-config.load();
 const ChatHandler = require("./chathandler");
 const CommandsLib = require("./commands");
+const { exit } = require('process');
+const fs = require('fs');
+
+const motd = fs.readFileSync('./config/motd.txt', 'utf8') || "Bot ready!";
 
 // Create an instance of a Discord client
 const client = new Client({
@@ -15,6 +17,14 @@ const client = new Client({
         GatewayIntentBits.GuildMembers,
     ],
 });
+
+console.log('Starting Bot...');
+
+//Load the token from config
+if (!config.load()) {
+    console.log("Since the bot failed to load the config, the bot will now terminate.");
+    exit(1);
+}
 
 // The token of your bot - https://discordapp.com/developers/applications/me
 const token = config.getToken();
@@ -35,13 +45,7 @@ client.on('ready', async () => {
     require("./modulehandler"); //Load modules after load
     
     console.log("Loaded " + config.getOps().length + " op(s) and " + config.getBarredUsers().length + " barred user(s)");
-  
-    //client.user.setStatus("online");
 });
-
-client.on("disconnect", function() {
-	//client.user.setStatus("dnd");
-})
 
 // Create an event listener for messages
 client.on('messageCreate', async message => {
@@ -65,7 +69,9 @@ async function handleException(e) {
 }
 
 // Log our bot in
-client.login(token);
+client.login(token).then(() => {
+    console.log(motd);
+});
 
 module.exports = {
     client,

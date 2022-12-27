@@ -7,7 +7,6 @@ let PREFIX = config.getCommandPrefix();
 
 function loadCommands() {
 	let dir = path.join(__dirname, "commands");
-	console.log(dir);
 	var command_no = 0;
 	fs.readdir(dir, function(err, files) {
 		if (err) {

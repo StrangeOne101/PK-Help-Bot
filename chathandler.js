@@ -36,23 +36,24 @@ async function handle(message, sender, channel, msgobj) {
 async function handleCommand(command, args, sender, channel, msgobj) {
 	if (config.isOp(sender.id)) { //Temp - Will be moved to files later
 		if (command == "debug") {
-			await channel.send(channel, sender, "Author: " + sender + ", ID: " + sender.id)
+			await channel.send(`Author: ${sender}, ID: ${sender.id}`);
 			return;
 		} else if (command == "reload") {
-			await send(channel, sender, "Reloading... one moment");
+			await channel.send("Reloading... one moment");
+			console.log("Reloading from config...");
 			config.load();
 			commandsLib.loadCommands();
 			for (callback of reloadEvents) {
 				await callback();
 			}
-			await send(channel, sender, "Reload successful!");
+			await channel.send("Reload successful!");
 			return;
 		} else if (command == "latency") {
-			await send(channel, sender, `Latency is ${Date.now() - msgobj.createdTimestamp}ms. API Latency is ${Math.round(msgobj.client.ws.ping)}ms`);
+			await channel.send(`Latency is ${Date.now() - msgobj.createdTimestamp}ms. API Latency is ${Math.round(msgobj.client.ws.ping)}ms`);
 			return;
 		} else if (command == "bar") {
 			if (msgobj.mentions.users.size == 0) {
-				await sender.send("Incorrect usage! Make sure you specify a user! Usage: `!bar @user`");
+				await channel.send("Incorrect usage! Make sure you specify a user! Usage: `!bar @user`");
 				await msgobj.react(emoji_cross);
 			} else {
 				for (var [id, user] of msgobj.mentions.users) {
@@ -63,7 +64,7 @@ async function handleCommand(command, args, sender, channel, msgobj) {
 			return;
 		} else if (command == "unbar") {
 			if (msgobj.mentions.users.size == 0) {
-				await sender.send("Incorrect usage! Make sure you specify a user! Usage: `!unbar @user`");
+				await channel.send("Incorrect usage! Make sure you specify a user! Usage: `!unbar @user`");
 				await msgobj.react(emoji_cross);
 			} else {
 				for (var [id, user] of msgobj.mentions.users) {
@@ -82,33 +83,6 @@ async function handleCommand(command, args, sender, channel, msgobj) {
 		}
 	}
 
-}
-
-/**
- * Send a message to a person. Depending on the channel, it may
- * be send via the channel or via DM.
- */
-async function send(channel, sender, message) {
-	if (!(channel instanceof discord.TextChannel)) { //If it's not a text channel, just reply. For group DMs or single DMs
-		await channel.send(message);
-		return;
-	}
-	
-	var loud = config.getLoudChannels().indexOf(channel.name) !== -1;
-	var quiet = config.getQuietChannels().indexOf(channel.name) !== -1;
-	
-	if (!loud && !quiet) {
-		loud = config.getDefaultChannelType().toLowerCase() == "loud";
-		quiet = !loud;
-	}
-	
-	if (loud) { //If the bot is allowed to be voiced in the channel
-		await channel.send(message);
-	} else if (quiet) { //DM them the message if the bot can't reply to the channel
-		await sender.send(message);
-	} else {
-		throw Exception("wtf is going on here?!?");
-	}
 }
 
 /**

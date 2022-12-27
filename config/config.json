@@ -1,21 +1,9 @@
 {
-    "Token": "***insertTokenHere***",
-    "Split": ">>",
     "CommandPrefix": "!",
     "Ops": [
         "145436402107154433"
     ],
     "BarredUsers": [],
-    "DefaultChannelType": "loud",
-    "LoudChannels": [
-        "help-desk",
-        "development"
-    ],
-    "QuietChannels": [
-        "general",
-        "suggestions",
-        "server"
-    ],
     "IgnoredChannels": [
         "off-topic",
         "staff",
