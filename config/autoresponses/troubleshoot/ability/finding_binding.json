@@ -11,6 +11,10 @@
         "troubleshoot/ability/spiritual.json",
         "Plantbending",
         "troubleshoot/ability/plant.json",
+        "Bloodbending",
+        "blood.json",
+        "Flight",
+        "flight.json",
         "A different ability",
         "troubleshoot/ability/other.json"
     ]

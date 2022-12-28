@@ -12,6 +12,8 @@
         "helpme/permissions.json",
         "Configuration",
         "helpme/configuration.json",
+        "Troubleshoot an Issue",
+        "troubleshoot/index.json",
         "Other",
         "helpme/other.json"
     ]

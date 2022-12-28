@@ -1,0 +1,10 @@
+{
+    "triggers": [
+        "^\\.singleplayer"
+    ],
+    "response": "While you cannot run ProjectKorra directly on single player, you can start a local server on your computer that only you can connect to. This will act exactly the same as single player and will cover your needs perfectly.\n\nClick the button bellow for a tutorial on how to do this. Note: You can ignore all firewall and port forwarding information as this is only for people who want others to join their server!",
+    "buttons": [
+        "Self Host Tutorial",
+        "https://www.youtube.com/watch?v=d1vzYR0I22g"
+    ]
+}
