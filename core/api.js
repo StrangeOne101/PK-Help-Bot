@@ -1,4 +1,4 @@
-const { client } = require("./bot")
+const { client } = require("../bot")
 const config = require("./config")
 const { addReloadEvent } = require("./chathandler")
 const { Snowflake, TextChannel, Guild, Message, User, Member } = require("discord.js");

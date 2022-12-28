@@ -4,7 +4,7 @@ const FS = require("fs");
 const { ThreadChannel, ForumChannel, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
 const config = require("../config");
 const PATH = require("path");
-const { client } = require("../bot");
+const { client } = require("../../bot");
 
 let regexMap = new Map();
 let fileMap = new Map();
@@ -312,7 +312,7 @@ async function getFiles(dir) {
  * Loads responses from config
  */
 async function loadResponses() {
-    let dir = PATH.join(__dirname, "../config/autoresponses");
+    let dir = PATH.join(__dirname, "../../config/autoresponses");
 
     regexMap.clear(); //Reset the maps!
     fileMap.clear();

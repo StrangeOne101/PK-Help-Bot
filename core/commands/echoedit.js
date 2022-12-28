@@ -1,5 +1,5 @@
 const { isOp, getMessage } = require("../api");
-const { client } = require("../bot");
+const { client } = require("../../bot");
 
 /**
  * This is a basic template for how commands should be setup.

@@ -1,8 +1,8 @@
 const { Client, GatewayIntentBits, PermissionsBitField } = require('discord.js');
 const http = require("http");
-const config = require("./config");
-const ChatHandler = require("./chathandler");
-const CommandsLib = require("./commands");
+const config = require("./core/config");
+const ChatHandler = require("./core/chathandler");
+const CommandsLib = require("./core/commands");
 const { exit } = require('process');
 const fs = require('fs');
 
@@ -42,7 +42,7 @@ client.on('ready', async () => {
     
     ChatHandler.setParent(instance);
     CommandsLib.loadCommands();
-    require("./modulehandler"); //Load modules after load
+    require("./core/modulehandler"); //Load modules after load
     
     console.log("Loaded " + config.getOps().length + " op(s) and " + config.getBarredUsers().length + " barred user(s)");
 });

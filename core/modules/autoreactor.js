@@ -1,7 +1,6 @@
 const API = require("../api");
 const FS = require("fs");
 const { ThreadChannel, ForumChannel } = require("discord.js");
-const { client } = require("../bot");
 
 let reactionList = [];
 const file = "./config/autoreactor.json";
