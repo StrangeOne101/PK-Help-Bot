@@ -226,7 +226,7 @@ class CollectiveResponse {
         let buttonResponse = new ButtonResponse(message);
         let actualButtons = [];
 
-        if (previous !== undefined) {
+        if (previous !== undefined && previous !== '') {
             let next = previous.split(";")[0];
 
             let otherCollective = fileMap.get(next);
@@ -234,6 +234,7 @@ class CollectiveResponse {
                 console.warn("Could not find correct redirect when going back: '" + previous + "'");
             } else {
                 let cut = previous.substring(next.length + 1, previous.length + 1); //We have to use this dumb way as JS split doesn't work like Java's split does
+
                 let interactive = (i) => otherCollective.edit(message, i, cut);
                 actualButtons.push(buttonResponse.addButton("(Back)", next, interactive));
             }
@@ -264,14 +265,14 @@ class CollectiveResponse {
                 let interactive = (i) => otherCollective.edit(message, i, newPrev);
                 actualButtons.push(buttonResponse.addButton(label, redirect, interactive));
             } else {
-                console.warn("Invalid redirection for " + file + ": " + redirect);
+                console.warn("Invalid redirection for " + this.file + ": " + redirect);
             }
         }
 
         let components = [];
         if (actualButtons.length > 0) {
             //Because each ActionRow can only have 5 buttons max
-            for (let i = 0; i < (parseInt(actualButtons.length / 5)) + 1; i++) { //ParseInt rounds the number to the nearest int
+            for (let i = 0; i < (parseInt((actualButtons.length - 1) / 5)) + 1; i++) { //ParseInt rounds the number to the nearest int
                 let builder = new ActionRowBuilder();
                 const bumper = i * 5;
 
