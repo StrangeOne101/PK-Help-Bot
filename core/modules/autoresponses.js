@@ -54,10 +54,10 @@ class ButtonResponse {
      * @returns The created button
      */
     addButton(text, link, callback = undefined) {
-        let intid = this.buttons.length;
+        let intid = this.buttons.length + 1; //+1 because 0 is reserved for "Back"
         let id = this.message.id + "_" + String(intid);
 
-        if (this.message.editedTimestamp !== undefined) {
+        if (this.message.editedTimestamp !== undefined && this.message.editedTimestamp !== null) {
             id = this.message.id + "_" + String(this.message.editedTimestamp) + String(intid)
         }
 
@@ -77,7 +77,8 @@ class ButtonResponse {
                 {
                     //If the person clicking is either staff or the user who asked
                     filter: interaction => (interaction.user.id == this.message.author.id || API.hasRole(interaction.member, "staff") || //If it was the author or staff
-                    (this.message.repliedTo !== undefined && interaction.user.id == this.message.repliedTo.author.id)) && //OR let the intended person respond to it
+                    (this.message.repliedTo !== undefined && interaction.user.id == this.message.repliedTo.author.id) || //OR let the intended person respond to it
+                    (this.message.mentions !== undefined && this.message.mentions.has(interaction.user.id))) && //OR if the user is mentioned
                         interaction.customId == id, 
                     time: 1_800_000
                 });
@@ -221,9 +222,22 @@ class CollectiveResponse {
         }
     }
 
-    __make(message, text) {
+    __make(message, text, previous = undefined) {
         let buttonResponse = new ButtonResponse(message);
         let actualButtons = [];
+
+        if (previous !== undefined) {
+            let next = previous.split(";")[0];
+
+            let otherCollective = fileMap.get(next);
+            if (otherCollective === undefined) {
+                console.warn("Could not find correct redirect when going back: '" + this.previous + "'");
+            } else {
+                let cut = previous.substring(next.length + 1, previous.length + 1); //We have to use this dumb way as JS split doesn't work like Java's split does
+                let interactive = (i) => otherCollective.edit(message, i, cut);
+                actualButtons.push(buttonResponse.addButton("(Back)", next, interactive));
+            }
+        }
 
         for (let i = 0; i < this.buttons.length / 2; i++) {
             let label = this.buttons[i * 2];
@@ -240,24 +254,34 @@ class CollectiveResponse {
 
                 let otherCollective = fileMap.get(redirect);
                 if (otherCollective === undefined) {
-                    console.log("Could not find redirect json file in file " + this.file + ": '" + redirect + "'");
+                    console.warn("Could not find redirect json file in file " + this.file + ": '" + redirect + "'");
                     continue;
                 }
 
-                let interactive = (i) => otherCollective.edit(message, i);
+                let newPrev = this.file;
+                if (previous !== undefined) newPrev = this.file + ";" + previous;
+
+                let interactive = (i) => otherCollective.edit(message, i, newPrev);
                 actualButtons.push(buttonResponse.addButton(label, redirect, interactive));
             } else {
-                console.log("Invalid redirection for " + file + ": " + redirect);
+                console.warn("Invalid redirection for " + file + ": " + redirect);
             }
         }
 
         let components = [];
         if (actualButtons.length > 0) {
-            let builder = new ActionRowBuilder();
-            for (let b of actualButtons) {
-                builder.addComponents(b);
+            //Because each ActionRow can only have 5 buttons max
+            for (let i = 0; i < (parseInt(actualButtons.length / 5)) + 1; i++) { //ParseInt rounds the number to the nearest int
+                let builder = new ActionRowBuilder();
+                const bumper = i * 5;
+
+                for (let j = 0; j < (actualButtons.length - bumper) && j < 5; j++) { //Make sure to only iterate 5 buttons 
+                    let button = actualButtons[bumper + j];
+                    builder.addComponents(button);
+                }
+                components.push(builder);
             }
-            components = [builder];
+            
         }
         return {content: text, components: components}
     }
@@ -285,11 +309,11 @@ class CollectiveResponse {
         }
     }
 
-    async edit(message, interaction) {
+    async edit(message, interaction, previous = undefined) {
         for (let res of this.responses) {
             let text = res.respond(message, []);
             if (text !== undefined) {
-                let contents = this.__make(message, text);
+                let contents = this.__make(message, text, previous);
                 await interaction.update(contents);
                 break
             }
@@ -334,7 +358,7 @@ async function loadResponses() {
 
         console.log("Loaded " + regexMap.size + " regex replies(s).");
     } catch(err) {
-		console.log("Unable to scan autoresponses directory: " + err);
+		console.warn("Unable to scan autoresponses directory: " + err);
     }
 
 }
