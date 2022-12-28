@@ -1,4 +1,4 @@
-[{
+{
     "triggers": [
         "can.+(i.+(get|have)(.+some)?|someone).+help( (pls|please))?[?!.]{0,5}$"
     ],
@@ -15,4 +15,4 @@
         "Other",
         "helpme/other.json"
     ]
-}]
+}
