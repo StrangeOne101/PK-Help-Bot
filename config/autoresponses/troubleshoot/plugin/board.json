@@ -1,0 +1,3 @@
+{
+    "response": "Do you have JedCore installed? If so, you might have both the JedCore bending board AND the ProjectKorra bending board enabled. Both can't exist at once, so we recommend you disable the JedCore board."
+}

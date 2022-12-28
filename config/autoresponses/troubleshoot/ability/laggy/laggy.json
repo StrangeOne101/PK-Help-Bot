@@ -1,0 +1,9 @@
+{
+    "response": "Are you on Bedrock or Java Edition?",
+    "buttons": [
+        "Bedrock Edition",
+        "troubleshoot/ability/laggy/bedrock.json",
+        "Java Edition",
+        "troubleshoot/ability/laggy/java.json"
+    ]
+}

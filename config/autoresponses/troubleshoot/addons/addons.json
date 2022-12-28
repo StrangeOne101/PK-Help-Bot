@@ -1,0 +1,11 @@
+{
+    "response": "What about addons is causing issues?",
+    "buttons": [
+        "How do I install them?",
+        "installing_addons.json",
+        "An addon isn't working",
+        "troubleshoot/addons/common/common_addons.json",
+        "Where do I get addons?",
+        "troubleshoot/addons/where.json"
+    ]
+}

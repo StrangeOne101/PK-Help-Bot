@@ -231,7 +231,7 @@ class CollectiveResponse {
 
             let otherCollective = fileMap.get(next);
             if (otherCollective === undefined) {
-                console.warn("Could not find correct redirect when going back: '" + this.previous + "'");
+                console.warn("Could not find correct redirect when going back: '" + previous + "'");
             } else {
                 let cut = previous.substring(next.length + 1, previous.length + 1); //We have to use this dumb way as JS split doesn't work like Java's split does
                 let interactive = (i) => otherCollective.edit(message, i, cut);

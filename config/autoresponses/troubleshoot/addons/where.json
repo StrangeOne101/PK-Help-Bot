@@ -1,0 +1,11 @@
+{
+    "response": "Most addons can be gotten on the ProjectKorra forums. There are a few also on GitHub.\n\nClick the buttons bellow for a link.",
+    "buttons": [
+        "PK Forum Abilities",
+        "https://projectkorra.com/forum/resources/categories/custom-abilities.3",
+        "PK Forum Side Plugins",
+        "https://projectkorra.com/forum/resources/categories/projectkorra-side-plugins.4/",
+        "JedCore (GitHub)",
+        "https://github.com/Aztlon/JedCore/releases"
+    ]
+}

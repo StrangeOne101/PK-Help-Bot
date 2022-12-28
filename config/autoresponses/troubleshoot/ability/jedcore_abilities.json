@@ -1,0 +1,7 @@
+{
+    "response": "SpiritBeam and ElementSphere are a part of JedCore; they don't come with ProjectKorra. You can get a link to here.\n\nMake sure you put it in the plugins folder, not the abilities folder!",
+    "buttons": [
+        "JedCore Download",
+        "https://github.com/Aztlon/JedCore/releases"
+    ]
+}

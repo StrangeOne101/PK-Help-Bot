@@ -1,0 +1,9 @@
+{
+    "response": "Are you on Aternos?",
+    "buttons": [
+        "Yes",
+        "aternos.json",
+        "No",
+        ""
+    ]
+}

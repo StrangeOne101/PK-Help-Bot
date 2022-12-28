@@ -1,0 +1,15 @@
+{
+    "response": "When does the error occur?",
+    "buttons": [
+        "On startup",
+        "troubleshoot/plugin/load/load.json",
+        "On command",
+        "troubleshoot/plugin/error/command.json",
+        "When bending",
+        "troubleshoot/plugin/error/bending.json",
+        "When logging in",
+        "troubleshoot/plugin/error/other.json",
+        "Other",
+        "troubleshoot/plugin/error/other.json"
+    ]
+}

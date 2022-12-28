@@ -1,0 +1,9 @@
+{
+    "response": "What type of lag is it? Is your framerate (FPS) dropping or is the server becoming more laggy because of it (TPS)?",
+    "buttons": [
+        "FPS Lag",
+        "troubleshoot/ability/laggy/java_fps.json",
+        "TPS Lag",
+        "troubleshoot/ability/laggy/java_tps.json"
+    ]
+}

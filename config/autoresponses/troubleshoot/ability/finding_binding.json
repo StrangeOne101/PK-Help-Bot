@@ -1,0 +1,17 @@
+{
+    "response": "Is the ability you can't find or bind within this list?",
+    "buttons": [
+        "AvatarState",
+        "avatarstate_bug.json",
+        "SpiritBeam",
+        "troubleshoot/ability/jedcore_abilities.json",
+        "ElementSphere",
+        "troubleshoot/ability/jedcore_abilities.json",
+        "Spiritual Projection",
+        "troubleshoot/ability/spiritual.json",
+        "Plantbending",
+        "troubleshoot/ability/plant.json",
+        "A different ability",
+        "troubleshoot/ability/other.json"
+    ]
+}

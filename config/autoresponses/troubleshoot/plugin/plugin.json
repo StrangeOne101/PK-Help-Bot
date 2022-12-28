@@ -1,0 +1,17 @@
+{
+    "response": "So it's the plugin. What seems to be the main concern?",
+    "buttons": [
+        "The plugin won't load",
+        "troubleshoot/plugin/load/load.json",
+        "I don't know how to bend",
+        "helpme/usage.json",
+        "I'm getting an error",
+        "troubleshoot/plugin/error/error.json",
+        "I don't know how to run/install it",
+        "helpme/install.json",
+        "My bending board won't update",
+        "troubleshoot/plugin/board.json",
+        "What version is the plugin for?",
+        "compatiblility.json"
+    ]
+}

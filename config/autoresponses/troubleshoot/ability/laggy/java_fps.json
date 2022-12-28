@@ -1,0 +1,9 @@
+{
+    "response": "If you're getting too much lag from abilities, we recommend installing Fabric with some Fabric mods to help with framerate. A great modpack to use is 'Fabulously Optimized'. This comes with Sodium and lots of other client mods that help boost framerate.",
+    "buttons": [
+        "Fabulously Optimized",
+        "https://www.curseforge.com/minecraft/modpacks/fabulously-optimized",
+        "How to install modpacks",
+        "https://www.youtube.com/watch?v=LRaILLvYwY0"
+    ]
+}

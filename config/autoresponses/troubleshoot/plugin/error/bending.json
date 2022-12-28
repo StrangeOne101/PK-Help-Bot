@@ -1,0 +1,3 @@
+{
+    "response": "Have you recently installed any addons for ProjectKorra? These may be causing issues.\n\nIf it is the addon, it is probably outdated. Try remove the addon for now and contact the author about updating it.\n\nIf you haven't installed any addons, please post the error that is in your console log. This will help support pick out exactly what is the issue. You can find this within the `/logs/latest.log` file of your server.\n\nAdditionally, if this addon is part of ProjectKorra Core or an addon ability pack, you can probably disable the faulty ability in the config for that ability pack. This should help prevent issues in the meantime."
+}

@@ -1,0 +1,15 @@
+{
+    "response": "What version of Minecraft is your server running?",
+    "buttons": [
+        "1.19.X",
+        "troubleshoot/plugin/load/correct.json",
+        "1.18.X",
+        "troubleshoot/plugin/load/correct.json",
+        "1.17.X",
+        "troubleshoot/plugin/load/correct.json",
+        "1.16.X",
+        "troubleshoot/plugin/load/correct.json",
+        "Something older",
+        "troubleshoot/plugin/load/outdated.json"
+    ]
+}

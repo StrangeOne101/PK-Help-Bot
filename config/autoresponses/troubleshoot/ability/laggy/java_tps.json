@@ -1,0 +1,7 @@
+{
+    "response": "If an ability is causing server lag, try reducing the size of the ability. This will usually be under `Range` for AOE (Area of Effect) abilities, but can sometimes be under radius. Another option is to try reduce the speed or the amount of particles it has.\n\nIf you don't think there is anything more you can reasonably do, please let us know what ability is causing your grief! A timings report would also be super helpful to try narrow down the cause of lag.",
+    "buttons": [
+        "How to take a timings report",
+        "https://shockbyte.com/billing/knowledgebase/198/How-to-Take-a-Timings-Report-on-Your-Minecraft-Server.html#:~:text=A%20timings%20report%20is%20a,tool%20for%20managing%20your%20server."
+    ]
+}

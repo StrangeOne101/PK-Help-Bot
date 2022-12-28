@@ -1,0 +1,11 @@
+{
+    "response": "Are you running a form Spigot? This includes the likes of Paper Spigot, Purpur, Airplane, Arclight, etc.",
+    "buttons": [
+        "Yes",
+        "troubleshoot/plugin/load/yes.json",
+        "No",
+        "troubleshoot/spigot.json",
+        "What's 'Spigot'?",
+        "troubleshoot/spigot.json"
+    ]
+}

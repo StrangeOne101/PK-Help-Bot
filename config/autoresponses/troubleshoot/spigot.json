@@ -1,0 +1,11 @@
+{
+    "response": "Spigot is a type of server software for Minecraft Java Edition. It allows you to run plugins on the server, and ProjectKorra requires Spigot in order to run.\n\nThere are a few types of Spigot. We recommend Paper Spigot, as it is Spigot but patches for optimization (so its faster!). Purpur is another great option, as it has a lot of fun configuration options while maintaining the optimization of paper.",
+    "buttons": [
+        "Spigot",
+        "https://minecraft.fandom.com/wiki/Tutorials/Setting_up_a_Spigot_server",
+        "Paper Spigot",
+        "https://papermc.io/downloads",
+        "Purpur",
+        "https://purpurmc.org/downloads"
+    ]
+}

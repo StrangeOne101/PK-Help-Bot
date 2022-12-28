@@ -1,0 +1,17 @@
+{
+    "response": "What about the ability is causing issues?",
+    "buttons": [
+        "I don't know how to use it",
+        "troubleshoot/ability/how_to_use.json",
+        "It's not working",
+        "troubleshoot/ability/not_working.json",
+        "I can't find/bind it in-game",
+        "troubleshoot/ability/finding_binding.json",
+        "It's laggy",
+        "troubleshoot/ability/laggy/laggy.json",
+        "The ability is invisible",
+        "troubleshoot/ability/invisible.json",
+        "Installing it (addons)",
+        "installing_addons.json"
+    ]
+}

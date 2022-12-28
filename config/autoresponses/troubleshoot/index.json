@@ -1,0 +1,15 @@
+{
+    "triggers": [
+        "^\\.troubleshoot(er|ing)?",
+        "i have.+an?.+issue$"
+    ],
+    "response": "Welcome to the Iroh 2.0 Troubleshooter! How can I help you today?\n\nPlease state which isn't working properly for you.",
+    "buttons": [
+        "The plugin",
+        "troubleshoot/plugin/plugin.json",
+        "An ability",
+        "troubleshoot/ability/ability.json",
+        "An addon/side plugin",
+        "troubleshoot/addons/addons.json"
+    ]
+}

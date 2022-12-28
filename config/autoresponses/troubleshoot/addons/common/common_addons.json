@@ -1,0 +1,11 @@
+{
+    "response": "Is your addon one of the following?",
+    "buttons": [
+        "JedCore",
+        "troubleshoot/addons/common/jedcore.json",
+        "Spirits",
+        "troubleshoot/addons/common/spirits.json",
+        "Another Addon",
+        "troubleshoot/addons/not_working.json"
+    ]
+}
