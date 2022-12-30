@@ -54,6 +54,7 @@ async function onTextMessage(message) {
                     .split(/[\n.,?!-]/g)[0]; //Split by sentence enders or a new line
 
                 if (message.attachments.size > 0) title = message.attachments.get(0).name; //Use the attachment name instead
+                if (title.length == 0) return;
                 else if (title.length > 50) title = title.substring(0, 50) + "..."; //Cut off long names
                 else if (title.length < 8 && message.content >= 8) title = message.content.substring(0, 50); //So things like v1.10.0 don't become a title of "v1"
 
