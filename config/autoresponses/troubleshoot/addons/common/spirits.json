@@ -2,6 +2,6 @@
     "response": "Have you made sure the Spirits plugin is in the `/plugins/` folder? 'Spirits - The Complete Set' isn't the base Spirits plugin, either. The complete set is an addon pack for the Spirits plugin, and the addon pack itself goes in `/plugins/ProjectKorra/Abilities/`. But the base Spirits plugin is still required in plugins.",
     "buttons": [
         "Yes, I've made sure",
-        "troubleshoot/addons/common/spirits_2"
+        "troubleshoot/addons/common/spirits_2.json"
     ]
 }

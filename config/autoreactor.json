@@ -9,6 +9,15 @@
         "create-thread": true
     },
     {
+        "channel": "🚧┃test-builds",
+        "reactions": [
+            "❤️",
+            "🪲",
+            "💀"
+        ],
+        "create-thread": true
+    },
+    {
         "channel": "addons",
         "reaction": "❤️"
     }

@@ -1,0 +1,9 @@
+{
+    "response": "Have you made sure you are on the latest JedCore? Some hosts provide you an outdated JedCore. The latest one can be found bellow.",
+    "buttons": [
+        "Latest JedCore Link",
+        "https://github.com/Aztlon/JedCore/releases",
+        "Yes, I've made sure",
+        "troubleshoot/console.json"
+    ]
+}

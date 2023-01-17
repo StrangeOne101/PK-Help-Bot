@@ -52,14 +52,22 @@ async function onTextMessage(message) {
                     .replaceAll(/\|\|.+\|\|/g, "") //Replace all spoilers with nothing
                     .replaceAll(/```(\S+)(?:.|\n|\r)*```/gm, "$1 Code") //Replace code with "x Code"
                     .split(/[\n.,?!-]/g)[0]; //Split by sentence enders or a new line
-
-                if (message.attachments.size > 0) title = message.attachments.get(0).name; //Use the attachment name instead
-                if (title.length == 0) return;
-                else if (title.length > 50) title = title.substring(0, 50) + "..."; //Cut off long names
-                else if (title.length < 8 && message.content >= 8) title = message.content.substring(0, 50); //So things like v1.10.0 don't become a title of "v1"
-
+                
                 //Filter out any discord markup. Then change escaped marked up characters to the proper characters so it isn't escaped
                 title = title.replaceAll(/(?<!\\)[*_]/g, "").replaceAll(/\\\*/g, "*").replaceAll(/\\_/g, "_");
+
+                if (title.length == 0) return;
+
+                if (title.length > 50) title = title.substring(0, 50) + "..."; //Cut off long names
+                else if (title.length < 8 && message.content >= 8) title = message.content.substring(0, 50); //So things like v1.10.0 don't become a title of "v1"
+
+                if (message.attachments.size > 0 && title <= 8) {
+                    title = message.attachments.first().name; //Use the attachment name instead
+                    title = title.replaceAll(/[_-]/g, " ");
+                    title = title.substring(0, title.lastIndexOf(".")); //Remove the file extension
+
+                    if (title.length > 50) title = title.substring(0, 50) + "..."; //Cut off long names (again)
+                }
 
                 message.startThread({name: title, autoArchiveDuration: 60});
             }
