@@ -1,6 +1,6 @@
 {
     "triggers": [
-        "^\\.bedrock"
+        "^\\.(bedrock|geyser)"
     ],
     "response": "ProjectKorra is for Spigot, which means it natively runs on Java Edition servers.\n\nHowever, it is possible to make a Java Server with Bedrock support. By downloading and installing the two plugins, Geyser and Floodgate, it is possible to connect to the server as if it was a Bedrock server.\n\nSee bellow for guides on setting that up. Or, you can look for existing servers that support bedrock in <#923001974360772639>!",
     "buttons": [
