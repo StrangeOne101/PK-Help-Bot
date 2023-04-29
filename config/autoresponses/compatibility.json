@@ -1,6 +1,6 @@
 [{
     "triggers": [
-        "(?:does|is|can someone tell).+(?:pk|projectkorra|(?:this|the) plug(?: |-)?in).+(?:work|run|available|compatible).+(?:on|with|for).+(1\\.\\d{0,2}(?!\\.\\d)?|(?:the )?latest)(?:[?!.]{1,5}|$)"
+        "(?:does|is|can someone tell).+(?:pk|projectkorra|(?:this|the) plug(?: |-)?in).+(?:work|run|available|compatible).+(?:on|with|for).+(1\\.\\d{0,2}(?!\\.\\d)?|(?:the )?latest)(?: version of (?:mc|mine ?craft|spigot))?(?:[?!.]{1,5}|$)"
     ],
     "responses": [
         {

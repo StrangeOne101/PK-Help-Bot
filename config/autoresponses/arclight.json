@@ -1,0 +1,10 @@
+{
+    "triggers": [
+        "\\.arclight"
+    ],
+    "response": "To run ProjectKorra with Forge mods, you must be running Arclight (and NOT Magma/Mohist). Arclight is server software that runs Spigot plugins while still running Forge mods. You can download Arclight below.",
+    "buttons": [
+        "Arclight on GitHub",
+        "https://github.com/IzzelAliz/Arclight"
+    ]
+}

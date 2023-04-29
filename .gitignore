@@ -1,5 +1,5 @@
 # Repo Specific Files
-./config/token.txt
+config/token.txt
 
 *.class
 node_modules/*

@@ -3,7 +3,7 @@
         "^\\.(flight)",
         "(?:is there a(?:ny)? ?way (?:that (?:i|you) (?:can|able)|to (?:be|make).+able)|how (?:can|do).+(?:i|you)).+(?:use|get) (flight).+without.+(?:op|permission)"
     ],
-    "response" :"Flight requires two permissions to use without op.\n\n`bending.air.flight` for players to gain the Flight subelement when they choose air. This will allow them to use any flight subelement abilities they have permission for.\nNote: All existing airbenders will need to either rechoose air to get flight OR you can manually add it with `/b add flight <player>`\n`bending.ability.flight` for the default Flight ability shipped in PK.\nIf you have any addon abilities for the flight subelement, you may also have to add the permission for them, too.\n\nIf you are unfamiliar with the process of adding permissions, you will need a permission plugin like LuckPerms. Click the buttons bellow for more info.",
+    "response" :"Flight requires two permissions to use without op.\n\n- `bending.air.flight` for players to gain the Flight subelement when they choose air. This will allow them to use any flight subelement abilities they have permission for.\nNote: All existing airbenders will need to either rechoose air to get flight OR you can manually add it with `/b add flight <player>`\n- `bending.ability.flight` for the default Flight ability shipped in PK.\nIf you have any addon abilities for the flight subelement, you may also have to add the permission for them, too.\n\nIf you are unfamiliar with the process of adding permissions, you will need a permission plugin like LuckPerms. Click the buttons bellow for more info.",
     "buttons": [
         "LuckPerms on Spigot",
         "https://www.spigotmc.org/resources/luckperms.28140/",

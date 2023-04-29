@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "discord.js": "^14.3.0"
+    "discord.js": "^14.9.0"
   },
   "name": "iroh-bot",
   "description": "A Node.js discord bot that matches messages to regex. Made to try help people if staff aren't around.",
