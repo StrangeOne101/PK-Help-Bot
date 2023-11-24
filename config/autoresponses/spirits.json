@@ -1,0 +1,10 @@
+{
+    "triggers": [
+        "^\\.spirits"
+    ],
+    "response": "To install Spirits, make sure you are using the latest version from StrangeOne101's repo. This can be found using the button below. Go to the releases section to download.\n\nThe Spirits plugin must go in the plugins folder. If you use The Complete Set, this must go in the Abilities folder IN ADDITION to the Spirits plugin being in the plugins folder.",
+    "buttons": [
+        "Spirits Repo",
+        "https://github.com/StrangeOne101/Spirits"        
+    ]
+}

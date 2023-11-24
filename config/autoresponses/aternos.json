@@ -1,4 +1,4 @@
-{
+[{
     "triggers": [
         "^\\.aternos",
         "(how.+(can|do).+(i|you)|is.+there.+(a |any ?)way).+(install|get|upload|add).+(add( |-)?ons|jedcore).+(in|on|to).+aternos"
@@ -14,4 +14,21 @@
         "server.pro",
         "https://server.pro/"        
     ]
-}
+},
+{
+    "triggers": [
+        "^\\.freehosts",
+        "(are|is) there (any|another)? ?(other)? free ((server|hosts)|server hosts)|what (else )?(can|do) (i|we) use (instead of|apart from|other than) aternos|what (other )?free hosts (is|are) (there|exist)"
+    ],
+    "response": "If you are looking for free hosts other than Aternos, you can use the following instead:\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use PloudOS\n- Use `server.pro`",
+    "buttons": [
+        "Self Host Tutorial",
+        "https://www.youtube.com/watch?v=d1vzYR0I22g",
+        "Falix",
+        "https://falixnodes.net/",
+        "PloudOS",
+        "https://ploudos.com/",
+        "server.pro",
+        "https://server.pro/"        
+    ]
+}]

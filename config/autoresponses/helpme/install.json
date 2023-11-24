@@ -1,4 +1,9 @@
 {
+    "triggers": [
+        "^\\.install",
+        "^\\.installation",
+        "how.+(do|can).+(i|we).+install ((the )?(projectkorra )?plugin|projectkorra|pk)"
+    ],
     "response": "To install ProjectKorra, a Spigot based server is required. To install ProjectKorra, simply download the plugin jar and put it inside your servers' `plugins` folder. After you reboot your server, the plugin will be installed.\n\nSome hosts will automate this process for you, and you may be able to select ProjectKorra from their list of plugins directly. Just make sure it is the latest version!\n\nFor more information, click the buttons bellow.",
     "buttons": [
         "What's Spigot?",
