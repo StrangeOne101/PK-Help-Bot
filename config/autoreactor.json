@@ -9,11 +9,10 @@
         "create-thread": true
     },
     {
-        "channel": "🚧┃test-builds",
+        "channel": "🚧┃beta-builds",
         "reactions": [
             "❤️",
-            "🪲",
-            "💀"
+            "🪲"
         ],
         "create-thread": true
     },
