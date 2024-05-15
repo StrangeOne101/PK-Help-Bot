@@ -8,7 +8,9 @@
         "LuckPerms on Spigot",
         "https://www.spigotmc.org/resources/luckperms.28140/",
         "LuckPerms Wiki on \"How to add permissions\"",
-        "https://luckperms.net/wiki/Usage"
+        "https://luckperms.net/wiki/Usage",
+        "I can't figure it out",
+        "luckperms_baby.json"
     ]
 
 }]

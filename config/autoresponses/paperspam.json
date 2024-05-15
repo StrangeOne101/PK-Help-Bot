@@ -3,5 +3,5 @@
         "^\\.paperspam",
         "Plugin 'ProjectKorra' is creating timing '[A-Za-z#_ -.]{3,40}' - this is deprecated behavior, please report it to the authors: ProjectKorra"
     ],
-    "response": "This is safe to ignore. Paper changed something in their API, and as long as PK isn't spamming it (once during startup is fine), it isn't an issue."
+    "response": "Upgrade to 1.11.3 and the issue will be resolved. However, if you are unable to upgrade, it is safe to ignore (as long as it isn't spamming and is just a few times on startup)"
 }
