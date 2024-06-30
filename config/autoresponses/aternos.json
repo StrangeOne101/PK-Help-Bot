@@ -3,16 +3,18 @@
         "^\\.aternos",
         "(how.+(can|do).+(i|you)|is.+there.+(a |any ?)way).+(install|get|upload|add).+(add( |-)?ons|jedcore).+(in|on|to).+aternos"
     ],
-    "response": "Unfortunately, Aternos does not allow you to upload any jar files to the server. This means you cannot install the latest version of JedCore or any custom abilities for ProjectKorra.\n\nWe recommend using another host instead. You can either\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use PloudOS\n- Use `server.pro`",
+    "response": "Unfortunately, Aternos does not allow you to upload any jar files to the server. This means you cannot install the latest version of ProjectKorra, JedCore or any custom abilities for ProjectKorra.\n\nWe recommend using another host instead. You can either\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use MineStrator\n- Use FreeMCServer",
     "buttons": [
         "Self Host Tutorial",
         "https://www.youtube.com/watch?v=d1vzYR0I22g",
         "Falix",
         "https://falixnodes.net/",
-        "PloudOS",
-        "https://ploudos.com/",
-        "server.pro",
-        "https://server.pro/"        
+        "MineStrator",
+        "https://minestrator.com/en/free/minecraft/server",
+        "FreeMCServer",
+        "https://freemcserver.net/",
+        "Full Free Server Host List",
+        "http://fmhl.free.nf/"              
     ]
 },
 {
@@ -20,15 +22,17 @@
         "^\\.freehosts",
         "(are|is) there (any|another)? ?(other)? free ((server|hosts)|server hosts)|what (else )?(can|do) (i|we) use (instead of|apart from|other than) aternos|what (other )?free hosts (is|are) (there|exist)"
     ],
-    "response": "If you are looking for free hosts other than Aternos, you can use the following instead:\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use PloudOS\n- Use `server.pro`",
+    "response": "If you are looking for free hosts other than Aternos, you can use the following instead:\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use MineStrator\n- Use FreeMCServer",
     "buttons": [
         "Self Host Tutorial",
         "https://www.youtube.com/watch?v=d1vzYR0I22g",
         "Falix",
         "https://falixnodes.net/",
-        "PloudOS",
-        "https://ploudos.com/",
-        "server.pro",
-        "https://server.pro/"        
+        "MineStrator",
+        "https://minestrator.com/en/free/minecraft/server",
+        "FreeMCServer",
+        "https://freemcserver.net/",
+        "Full Free Server Host List",
+        "http://fmhl.free.nf/"        
     ]
 }]

@@ -22,6 +22,10 @@ async function onTextMessage(message) {
         //If its a forum, check the parent channel (posts are "threads"). Else, return
         if (message.channel.parent && message.channel.parent instanceof ForumChannel) {
             channel = message.channel.parent;
+
+            if (channel.messageCount !== 1) {
+                return; //If there are more than 1 messages, don't do anything
+            }
         } else return; 
     }
 

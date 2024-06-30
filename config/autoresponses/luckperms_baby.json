@@ -2,7 +2,7 @@
     "response": "The basic command is `/lp user <user> permission set <permission> true` or `/lp group <group> permission set <permission> true`.\n\nReplace `<user>` with the user you want to give the permission to, `<group>` with the group you want to give the permission to, and `<permission>` with the permission node you want to give.\n\nTo give it to all players, you give it to the `default` group. E.g. `/lp group default permission set bending.command.rechoose true`",
     "buttons": [
         "What is the permission list again?",
-        "permissions.json"
+        "helpme/permissions.json"
     ]
 
 }]

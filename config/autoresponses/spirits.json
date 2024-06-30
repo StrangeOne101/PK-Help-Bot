@@ -2,9 +2,11 @@
     "triggers": [
         "^\\.spirits"
     ],
-    "response": "To install Spirits, make sure you are using the latest version from StrangeOne101's repo. This can be found using the button below. Go to the releases section to download.\n\nThe Spirits plugin must go in the plugins folder. If you use The Complete Set, this must go in the Abilities folder IN ADDITION to the Spirits plugin being in the plugins folder.",
+    "response": "There are two versions of Spirits you can use.\n\nStrange's version - Where both light and dark spirits also have the neutral element.\nDarkermoon's version - All 3 spirits elements are separate, with a new WIP 'primal' element.\n\nClick the buttons bellow for a link. Both of these plugins go in the `/plugins/` folder. Take note that the [Spirits Complete Set] addon comes with Darkmoon's version, but has to be installed in `/plugins/ProjectKorra/Abilities/` for Strange's version (in ADDITION to the plugin).",
     "buttons": [
-        "Spirits Repo",
-        "https://github.com/StrangeOne101/Spirits"        
+        "Strange's Version",
+        "https://github.com/StrangeOne101/Spirits/",
+        "Darkermoon's Version",
+        "https://github.com/SoraShiunin/Spirits-Random-Stuff-/"        
     ]
 }
