@@ -3,34 +3,118 @@ var config = require("./config");
 var discord = require("discord.js");
 const commandsLib = require("./commands");
 
+// stack trace modules
+const { EmbedBuilder, MessageAttachment } = require('discord.js');
+const { promptLLM } = require('./modules/hordellm.js');
+const { getInstance } = require('./modules/openaillm.js');
+const { extractTextFromImage } = require('./modules/ocr.js');
+const fetch = require('node-fetch'); // this was just thrown in for quick testing, can be replaced
+
 const reloadEvents = [];
 
 var parentM;
 
 const emoji_tickbox = "\u2705";
 const emoji_cross = "\u274C";
+const stackTraceRegex = /\b(INFO|WARN|ERROR)\b/gm; // This could be more robust, but due to the variety of formats, this is guaranteed
 
 async function handle(message, sender, channel, msgobj) {
-	//var isOp = sender.id == "145436402107154433"; //ID of the owner of the bot
-	var isOp = config.isOp(sender.id);
-	const pre = config.getCommandPrefix();
-	
-	if (config.isUserBarred(sender.id) && !isOp) return;
-	if (isChannelIgnored(channel)) return;
-	
-	if (message.startsWith(pre)) {
-		message = message.toLowerCase();
-		
-		//This cuts the first arg off and splits the rest
-		var args = message.substr(message.substr(pre.length).split(" ")[0].length + pre.length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
-		try {
-			msgobj.client.lastUsedChannel = channel;
-			await handleCommand(message.substr(config.getCommandPrefix().length).split(" ")[0], args, sender, channel, msgobj);
-		} catch (exception) {
-			console.log(exception);
-			await send(channel, sender, "An error occurred while running this command. Please check the console.")
-		}
-	}
+    var isOp = config.isOp(sender.id);
+    const pre = config.getCommandPrefix();
+
+    if (config.isUserBarred(sender.id) && !isOp) return;
+    if (isChannelIgnored(channel)) return;
+
+    // implement a check for if the message is an image url, potentially to a screenshot of a stack trace
+
+    // check the message for a possible stack trace
+    if (stackTraceRegex.test(message)) {
+        handleStackTrace(message, sender, channel, msgobj);
+        return;
+    }
+
+    // check attachments
+    // implement adding the users message to the extracted content, in case they have specific questions
+    if (msgobj.attachments.size > 0) {
+        const attachment = msgobj.attachments.first();
+        const fileUrl = attachment.url;
+
+        console.log(`Found attachment:\n${fileUrl}`)
+
+        // there is an issue where the URL doesnt seem to have headers, sometimes, I think, havent checked it yet
+        try {
+            const response = await fetch(fileUrl);
+            const contentType = response.headers.get('content-type');
+            const fileBuffer = await response.buffer();
+
+            if (contentType.includes('text/plain')) {
+                console.log("Text File")
+
+                const fileContent = fileBuffer.toString('utf-8');
+
+                console.log(fileContent)
+
+                if (stackTraceRegex.test(fileContent)) {
+                    console.log("Detected Stack Trace")
+                    handleStackTrace(fileContent, sender, channel, msgobj);
+                    return;
+                }
+            } else if (contentType.includes('image')) {
+                console.log("Image")
+
+                const extractedText = await extractTextFromImage(fileUrl);
+
+                console.log(extractedText)
+
+                if (stackTraceRegex.test(extractedText)) {
+                    handleStackTrace(extractedText, sender, channel, msgobj);
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error('Failed to process attachment:', error);
+            await msgobj.reply("Failed to process the attachment. Please check the console.");
+            return;
+        }
+    }
+
+    if (message.startsWith(pre)) {
+        message = message.toLowerCase();
+
+        // This cuts the first arg off and splits the rest
+        var args = message.substr(message.substr(pre.length).split(" ")[0].length + pre.length + (message.indexOf(' ') != -1 ? 1 : 0)).split(" ");
+        try {
+            msgobj.client.lastUsedChannel = channel;
+            await handleCommand(message.substr(config.getCommandPrefix().length).split(" ")[0], args, sender, channel, msgobj);
+        } catch (exception) {
+            console.log(exception);
+            await send(channel, sender, "An error occurred while running this command. Please check the console.");
+        }
+    }
+}
+
+async function handleStackTrace(message, sender, channel, msgobj) {
+    // implement a global state for whether the OpenAI token is set or if there are available models if using the horde
+    // probably make this more configurable and make sure the openai key is stored either in txt like the discord token, or .env
+
+    try {
+        // Call promptLLM with the message as the prompt, uses the stable horde (quality may vary, shorter responses, free)
+        // const analysis = await promptLLM(message);
+
+        // Call promptLLM with the message as the prompt, uses openai (better and longer responses, paid: $0.15 per 1 million tokens)
+        const openAIClient = getInstance();
+        const { model, response } = await openAIClient.analyzeStackTrace(message);
+
+        const embed = new EmbedBuilder()
+            .setTitle("Stack Trace Analyzer")
+            .setDescription(response || "Unable to analyze stack trace.")
+            .setFooter({ text: `This was generated by an LLM and may be incorrect. [${model}]` });
+
+        await msgobj.reply({ embeds: [embed] });
+    } catch (error) {
+        console.error("Error handling stack trace:", error);
+        await msgobj.reply("An error occurred while processing the stack trace. Please check the console.");
+    }
 }
 
 async function handleCommand(command, args, sender, channel, msgobj) {
