@@ -2,6 +2,8 @@ const OpenAI = require('openai');
 const tiktoken = require('tiktoken');
 const fs = require('fs');
 var config = require("../config");
+const API = require("../api");
+const { logFiles } = require("./stacktraceanalyzer");
 
 const LLM_MODEL = 'gpt-4o-mini'; // best and most affordable openai model for stack trace analysis
 const BASE_PROMPT = fs.readFileSync('./config/base_stacktrace_prompt.txt', 'utf8');
@@ -59,13 +61,15 @@ class OpenAIAsyncClient {
                 const currentTime = new Date().toISOString().replace(/[:.]/g, '-');
                 const filename = `./responses/${currentTime}.json`;
 
-                fs.mkdirSync('./responses', { recursive: true });
+                if (logFiles) {
+                    fs.mkdirSync('./responses', { recursive: true });
 
-                const jsonData = JSON.stringify({ prompt: [userPrompt, systemPrompt].join('\n'), response: result, model: model }, null, 2);
-                fs.writeFileSync(filename, jsonData);
-
-                console.log(`\n💾  -- Saved response as ${filename}\n`);
-
+                    const jsonData = JSON.stringify({ prompt: [userPrompt, systemPrompt].join('\n'), response: result, model: model }, null, 2);
+                    fs.writeFileSync(filename, jsonData);
+    
+                    console.log(`\n💾  -- Saved response as ${filename}\n`);
+                }
+                
                 return { model: model, response: result };
 
             } catch (error) {
@@ -95,3 +99,8 @@ module.exports = {
     getGPTInstance,
     BASE_PROMPT
 };
+
+API.subscribe("reload", () => {
+    console.log("Reloading stack trace analyzer prompt...");
+    BASE_PROMPT = fs.readFileSync('./config/base_stacktrace_prompt.txt', 'utf8');
+});

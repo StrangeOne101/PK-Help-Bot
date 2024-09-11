@@ -1,5 +1,6 @@
 # Repo Specific Files
 config/token.txt
+config/openai_token.txt
 
 *.class
 node_modules/*
