@@ -11,6 +11,7 @@ async function extractTextFromImage(image) {
         let imageBuffer;
         if (typeof image === 'string') {
             const response = await fetch(image);
+            console.log(response)
             if (!response.ok) throw new Error('Failed to fetch image');
             imageBuffer = await response.buffer();
         } else {
@@ -22,7 +23,7 @@ async function extractTextFromImage(image) {
             imageBuffer,
             'eng',
             {
-                logger: info => console.log(info)  // the logging can be removed if desired
+                logger: info => console.log(info)
             }
         );
 
