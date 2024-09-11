@@ -1,7 +1,8 @@
 const { client } = require("../bot")
 const config = require("./config")
-const { addReloadEvent } = require("./chathandler")
 const { Snowflake, TextChannel, Guild, Message, User, Member } = require("discord.js");
+
+const reloadEvents = [];
 
 const id = /<(?:@&?|#)(\d{9,24})>/;
 const message_id = /https:\/\/discord\.com\/channels\/(\d{9,25})\/(\d{9,25})\/(\d{9,25})/;
@@ -192,7 +193,7 @@ async function isBlacklisted(snowflake) {
 
 function subscribe(event, callback) {
     if (event === "reload") {
-        addReloadEvent(callback);
+        reloadEvents.push(callback);
     } else {
         client.on(event, callback);
     }
@@ -208,5 +209,6 @@ module.exports = {
     getChannel,
     getId,
     getUser,
-    stripFormatting
+    stripFormatting,
+    reloadEvents
 }

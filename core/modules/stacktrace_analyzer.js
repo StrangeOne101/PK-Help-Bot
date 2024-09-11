@@ -1,5 +1,16 @@
 const fetch = require('node-fetch');
+const fs = require("fs");
+const configJS = require('../config.js');
 
+const config = JSON.parse(fs.readFileSync('config/stacktrace_config.json', 'utf8'));
+
+const enabled = config["enabled"] || true;
+const logFiles = config["file-logging"] || false;
+
+const includeTokenCounts = config["show-tokens"] || false;
+
+// stack trace analysis
+const devSupportChannel = config["developer-channels"];  // add the dev support channel ID here to let the LLM know when its a dev request
 
 const { getGPTInstance, BASE_PROMPT } = require('./openai_llm.js');
 const { extractTextFromImage } = require('./ocr.js');
@@ -14,16 +25,6 @@ const { EmbedBuilder, MessageAttachment, ActionRowBuilder, ButtonBuilder, Button
 const imageUrlRegex = /(https?:\/\/[^\s]+(?:\.(?:jpg|jpeg|png))(?:\?[^\s]*)?)/i;
 
 const stackTraceRegex = /([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+\]\:?)?\s([\w\d]+\sissued\sserver\scommand:|null|Could\snot\spass\sevent|Could\snot\sload|Error\soccurred\swhile\senabling|Task\s[#\d]+\sfor|[\w\d.]+[\w\d]:\s[!|]+)?(Caused\sby:)?[\w\d\s-.()?>'/]*((?:\[[0-9A-Za-z\s:./]+\]:)?\s?([\w\d.]+[\w\d]+:[^|]+)?)?(([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+ ?\]\:?)?\s?([\t\s]*at\s[\w\d\s\t.()$/\[\]~:?\-<>]+\s?))+/
-
-const config = JSON.parse(fs.readFileSync('../../config/stacktrace_config.json', 'utf8'));
-
-const enabled = config["enabled"] || true;
-const logFiles = config["file-logging"] || false;
-
-const includeTokenCounts = config["show-tokens"] || false;
-
-// stack trace analysis
-const devSupportChannel = config["developer-channels"];  // add the dev support channel ID here to let the LLM know when its a dev request
 
 async function checkForStackTrace(message, sender, channel, msgobj) {
     if (!enabled) return false;
@@ -212,7 +213,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
         if (interaction.user.id === message.author.id) {
             return true;
         }
-        const staffRoles = config.getRoles('staff');
+        const staffRoles = configJS.getRoles('staff');
         return memberRoles.some(role => staffRoles.includes(role.id));
     };
 
@@ -226,7 +227,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
             const userAccepted = interaction.customId === 'yes';
 
             const memberRoles = interaction.member.roles.cache;
-            const staffRoles = config.getRoles('staff');
+            const staffRoles = configJS.getRoles('staff');
             const isStaff = memberRoles.some(role => staffRoles.includes(role.id));
 
             const responseEmbed = new EmbedBuilder()

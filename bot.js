@@ -1,8 +1,5 @@
 const { Client, GatewayIntentBits, PermissionsBitField } = require('discord.js');
 const http = require("http");
-const config = require("./core/config");
-const ChatHandler = require("./core/chathandler");
-const CommandsLib = require("./core/commands");
 const { exit } = require('process');
 const fs = require('fs');
 
@@ -17,6 +14,14 @@ const client = new Client({
         GatewayIntentBits.GuildMembers,
     ],
 });
+
+module.exports = {
+    client
+}
+
+const config = require("./core/config");
+const ChatHandler = require("./core/chathandler");
+const CommandsLib = require("./core/commands");
 
 console.log('Starting Bot...');
 
@@ -72,9 +77,3 @@ async function handleException(e) {
 client.login(token).then(() => {
     console.log(motd);
 });
-
-module.exports = {
-    client,
-    ChatHandler,
-    CommandsLib
-}

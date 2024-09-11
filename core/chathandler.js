@@ -2,16 +2,9 @@ var http = require("http");
 var config = require("./config");
 var discord = require("discord.js");
 const commandsLib = require("./commands");
+const { reloadEvents } = require("./api");
 
-const { stackTraceRegex, imageUrlRegex, checkForStackTrace } = require('./modules/stacktrace_analyzer.js');
-const { EmbedBuilder, MessageAttachment, ActionRowBuilder, ButtonBuilder, ButtonStyle, Events, PermissionsBitField } = require('discord.js');
-
-
-
-
-const reloadEvents = [];
-
-var parentM;
+const { checkForStackTrace } = require('./modules/stacktrace_analyzer.js');
 
 const emoji_tickbox = "\u2705";
 const emoji_cross = "\u274C";
@@ -42,10 +35,6 @@ async function handle(message, sender, channel, msgobj) {
     }
 }
 
-
-
-
-
 async function handleCommand(command, args, sender, channel, msgobj) {
 	if (config.isOp(sender.id)) { //Temp - Will be moved to files later
 		if (command == "debug") {
@@ -53,8 +42,6 @@ async function handleCommand(command, args, sender, channel, msgobj) {
 			return;
 		} else if (command == "reload") {
 			await channel.send("Reloading... one moment");
-			console.log("Reloading stack trace analyzer prompt...");
-			BASE_PROMPT = fs.readFileSync('./config/base_stacktrace_prompt.txt', 'utf8');
 			console.log("Reloading from config...");
 			config.load();
 			commandsLib.loadCommands();
@@ -142,12 +129,7 @@ function request(url) {
 	});
 }
 
-
-
 exports.handle = handle;
 exports.setParent = function(module) {
 	parentM = module;
-}
-exports.addReloadEvent = (callback) => {
-	reloadEvents.push(callback);
 }
