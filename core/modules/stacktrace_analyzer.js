@@ -127,7 +127,7 @@ async function handleStackTrace(message, sender, channel, msgobj) {
         // log matches for debugging
         console.log("Matches:", groups);
 
-        if (groups.length <= 0) {
+        if (!groups || groups.length === 0) {
             console.log("No matches found.");
             return;
         }
