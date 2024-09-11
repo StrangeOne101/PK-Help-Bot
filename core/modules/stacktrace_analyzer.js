@@ -5,7 +5,6 @@ const configJS = require('../config.js');
 const config = JSON.parse(fs.readFileSync('config/stacktrace_config.json', 'utf8'));
 
 const enabled = config["enabled"] || true;
-const logFiles = config["file-logging"] || false;
 
 const includeTokenCounts = config["show-tokens"] || false;
 
@@ -24,7 +23,8 @@ const { EmbedBuilder, MessageAttachment, ActionRowBuilder, ButtonBuilder, Button
 // regex for detecting stack traces and image urls (with resources) in messages and screenshots
 const imageUrlRegex = /(https?:\/\/[^\s]+(?:\.(?:jpg|jpeg|png))(?:\?[^\s]*)?)/i;
 
-const stackTraceRegex = /([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+\]\:?)?\s([\w\d]+\sissued\sserver\scommand:|null|Could\snot\spass\sevent|Could\snot\sload|Error\soccurred\swhile\senabling|Task\s[#\d]+\sfor|[\w\d.]+[\w\d]:\s[!|]+)?(Caused\sby:)?[\w\d\s-.()?>'/]*((?:\[[0-9A-Za-z\s:./]+\]:)?\s?([\w\d.]+[\w\d]+:[^|]+)?)?(([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+ ?\]\:?)?\s?([\t\s]*at\s[\w\d\s\t.()$/\[\]~:?\-<>]+\s?))+/
+const initialStackTraceRegex = /\b(ERROR|WARN|INFO)\b/g;
+const stackTraceRegex = /([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+\]\:?)?\s([\w\d]+\sissued\sserver\scommand:|null|Could\snot\spass\sevent|Could\snot\sload|Error\soccurred\swhile\senabling|Task\s[#\d]+\sfor|[\w\d.]+[\w\d]:\s[!|]+)?(Caused\sby:)?[\w\d\s-.()?>'/]*((?:\[[0-9A-Za-z\s:./]+\]:)?\s?([\w\d.]+[\w\d]+:[^|]+)?)?(([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+ ?\]\:?)?\s?([\t\s]*at\s[\w\d\s\t.()$/\[\]~:?\-<>]+\s?))+/gm;
 
 async function checkForStackTrace(message, sender, channel, msgobj) {
     if (!enabled) return false;
@@ -42,7 +42,7 @@ async function checkForStackTrace(message, sender, channel, msgobj) {
             const extractedText = await extractTextFromImage(imageUrl);
             console.log('Extracted text from image:', extractedText);
 
-            if (stackTraceRegex.test(extractedText)) {
+            if (initialStackTraceRegex.test(extractedText)) {
                 console.log('Detected stack trace in image text');
                 await handleStackTrace([message, extractedText].join('\n\n'), sender, channel, msgobj);
                 return true;
@@ -75,7 +75,7 @@ async function checkForStackTrace(message, sender, channel, msgobj) {
 
                 console.log(fileContent)
 
-                if (stackTraceRegex.test(fileContent)) {
+                if (initialStackTraceRegex.test(fileContent)) {
                     console.log("Detected Stack Trace");
                     await handleStackTrace([message, fileContent].join('\n\n'), sender, channel, msgobj);
                     return true;
@@ -90,7 +90,7 @@ async function checkForStackTrace(message, sender, channel, msgobj) {
 
                 console.log(extractedText);
 
-                if (stackTraceRegex.test(extractedText)) {
+                if (initialStackTraceRegex.test(extractedText)) {
                     console.log("Detected Stack Trace")
                     await handleStackTrace([message, extractedText].join('\n\n'), sender, channel, msgobj);
                     return true;
@@ -103,7 +103,7 @@ async function checkForStackTrace(message, sender, channel, msgobj) {
     }
 
     // check the message itself for a possible stack trace, if none, continue with normal behavior
-    if (stackTraceRegex.test(message)) {
+    if (initialStackTraceRegex.test(message)) {
         await handleStackTrace(message, sender, channel, msgobj);
         return true;
     }
@@ -284,8 +284,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
 }
 
 module.exports = {
-    checkForStackTrace,
-    logFiles
+    checkForStackTrace
 }
 
 API.subscribe("reload", () => {
