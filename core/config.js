@@ -4,6 +4,7 @@ var config = {};
 
 const file = "./config/config.json";
 const tokenFile = "./config/token.txt";
+const openaiTokenFile = './config/openai_token.txt'
 
 //Get document, or throw exception on error
 
@@ -24,6 +25,19 @@ function load() {
 			return false;
 		}
 		config.Token = token;
+
+		// load openai api key for stack trace analyzer
+		if (!fs.existsSync(openaiTokenFile)) {
+			console.log(`No openai token file found! Please insert your api key into ${openaiTokenFile}!`);
+			fs.appendFileSync(openaiTokenFile, "Please insert your api key here!", "utf8");
+			return false;
+		}
+		let openaiToken = fs.readFileSync(openaiTokenFile, 'utf8');
+		if (openaiToken.indexOf(" ") > -1 || token == "" || token.length < 10) {
+			console.log(`You haven't provided your openai api key! Please insert it into ${openaiTokenFile}!`);
+			return false;
+		}
+		config.OpenAIToken = openaiToken;
 	} catch (e) {
 		console.log(e);
 		return false;
@@ -71,6 +85,10 @@ function getToken() {
 	return typeof config.Token === 'undefined' ? "" : config.Token;
 }
 
+function getOpenAIToken() {
+	return typeof config.OpenAIToken === 'undefined' ? "" : config.OpenAIToken;
+}
+
 function getSplit() {
 	return typeof config.Split === 'undefined' ? ">>" : config.Split;
 }
@@ -90,6 +108,7 @@ function getRoles(group) {
 //ES6
 module.exports = {
 	getToken,
+	getOpenAIToken,
 	getRoles,
 	getSplit,
 	getIgnoredChannels,
