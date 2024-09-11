@@ -147,8 +147,8 @@ async function handleStackTrace(message, sender, channel, msgobj) {
         const tokens = await openAIClient.countTokens(prompt);
         console.log("Prompt Tokens:", tokens)
 
-        // safety net of 3500 tokens, or ~2625 words/symbols
-        if (tokens >= 3500) {
+        // safety net
+        if (tokens >= 6500) {
             const embed = new EmbedBuilder()
                 .setTitle("Stack Trace Analyzer")
                 .setDescription("I detected a stack trace in your message but it is too long for me to process.\nPlease find and paste the exact stack trace you would like me to analyze for you.")
