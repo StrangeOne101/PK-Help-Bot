@@ -229,6 +229,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
             const memberRoles = interaction.member.roles.cache;
             const staffRoles = configJS.getRoles('staff');
             const isStaff = memberRoles.some(role => staffRoles.includes(role.id));
+            const isNotAuthor = interaction.user.id !== msgobj.author.id;
 
             const responseEmbed = new EmbedBuilder()
                 .setTitle("Stack Trace Analyzer")
@@ -242,7 +243,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
                 }
 
             if (userAccepted) {
-                if (isStaff) {
+                if (isStaff && isNotAuthor) {
                     // keeps the buttons for the user to still use if staff responds first
                     responseEmbed.setFooter({ text: `A staff member accepted this response. ✅` });
                     await interaction.update({ embeds: [responseEmbed], components: [actionRow] });
@@ -252,7 +253,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
                     await interaction.update({ embeds: [responseEmbed], components: [] });
                 }
             } else {
-                if (isStaff) {
+                if (isStaff && isNotAuthor) {
                     responseEmbed.setFooter({ text: `A staff member marked this response as not helpful. ❌` });
                     await interaction.update({ embeds: [responseEmbed], components: [actionRow] });
                 } else {
