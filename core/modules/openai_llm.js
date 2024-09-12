@@ -3,7 +3,9 @@ const tiktoken = require('tiktoken');
 const fs = require('fs');
 var config = require("../config.js");
 const API = require("../api.js");
-const { logFiles } = require("./stacktrace_analyzer.js");
+
+const settings = JSON.parse(fs.readFileSync('./config/stacktrace_config.json', 'utf8'));
+const logFiles = settings["file-logging"] || false;
 
 const LLM_MODEL = 'gpt-4o-mini'; // best and most affordable openai model for stack trace analysis
 const BASE_PROMPT = fs.readFileSync('./config/base_stacktrace_prompt.txt', 'utf8');
