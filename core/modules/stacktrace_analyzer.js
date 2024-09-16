@@ -21,7 +21,7 @@ const { EmbedBuilder, MessageAttachment, ActionRowBuilder, ButtonBuilder, Button
 const imageUrlRegex = /(https?:\/\/[^\s]+(?:\.(?:jpg|jpeg|png))(?:\?[^\s]*)?)/i;
 
 const initialStackTraceRegex = /\b(ERROR|WARN|INFO)\b/g;
-const stackTraceRegex = /([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+\]\:?)?\s([\w\d]+\sissued\sserver\scommand:|null|Could\snot\spass\sevent|Could\snot\sload|Error\soccurred\swhile\senabling|Task\s[#\d]+\sfor|[\w\d.]+[\w\d]:\s[!|]+)?(Caused\sby:)?[\w\d\s-.()?>'/]*((?:\[[0-9A-Za-z\s:./]+\]:)?\s?([\w\d.]+[\w\d]+:[^|]+)?)?(([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+ ?\]\:?)?\s?([\t\s]*at\s[\w\d\s\t.()$/\[\]~:?\-<>]+\s?))+/gm;
+const stackTraceRegex = /([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+\]\:?)?\s([\w\d]+\sissued\sserver\scommand:|null|Could\snot\spass\sevent|Could\snot\sload|Error\soccurred\swhile\senabling|Task\s[#\d]+\sfor|[\w\d.]+[\w\d]:\s[!|]+)?(Caused\sby:)?[\w\d\s-.()?>'/]*((\[[0-9A-Za-z\s:./]+\]:)?\s?([\w\d.]+[\w\d]+:[^|\r\n]+)?)?(([\t\r!\-\s]*[0-9A-Za-z\s:./\[\]]+ ?\]\:?)?\s?(\t*\sat\s([\w\d\r\t.]{3,99})([\w\d\r\t.]){1,99}([\w\d\s()$:]{1,99})([/\[\]~:?\-<>\w\d]{3,99})?\s?))+/gm;
 
 async function checkForStackTrace(message, sender, channel, msgobj) {
     if (!enabled) return false;
