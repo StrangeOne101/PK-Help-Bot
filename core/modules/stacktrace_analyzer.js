@@ -4,9 +4,10 @@ const configJS = require('../config.js');
 
 const config = JSON.parse(fs.readFileSync('config/stacktrace_config.json', 'utf8'));
 
-const enabled = config["enabled"] || true;
+const enabled = config["enabled"] ?? true;
+const logFiles = config["file-logging"] ?? false;
 
-const includeTokenCounts = config["show-tokens"] || false;
+const includeTokenCounts = config["show-tokens"] ?? false;
 
 // stack trace analysis
 const devSupportChannel = config["developer-channels"];  // add the dev support channel ID here to let the LLM know when its a dev request
@@ -15,10 +16,6 @@ const { getGPTInstance, BASE_PROMPT } = require('./openai_llm.js');
 const { extractTextFromImage } = require('./ocr.js');
 const API = require('../api.js');
 const { EmbedBuilder, MessageAttachment, ActionRowBuilder, ButtonBuilder, ButtonStyle, Events, PermissionsBitField } = require('discord.js');
-
-
-// here for debugging
-
 
 // regex for detecting stack traces and image urls (with resources) in messages and screenshots
 const imageUrlRegex = /(https?:\/\/[^\s]+(?:\.(?:jpg|jpeg|png))(?:\?[^\s]*)?)/i;
@@ -287,6 +284,9 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
 module.exports = {
     checkForStackTrace
 }
+
+if (enabled) console.log("Enabled Stack Trace Analyzer");
+else console.log("Stack Trace Analyzer not active");
 
 API.subscribe("reload", () => {
     config = JSON.parse(fs.readFileSync('../../config/stacktrace_config.json', 'utf8'));
