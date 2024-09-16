@@ -226,7 +226,7 @@ async function sendStackTraceResponse(message, analysisResult, tokens, responseT
             const memberRoles = interaction.member.roles.cache;
             const staffRoles = configJS.getRoles('staff');
             const isStaff = memberRoles.some(role => staffRoles.includes(role.id));
-            const isNotAuthor = interaction.user.id !== msgobj.author.id;
+            const isNotAuthor = interaction.user.id !== message.author.id;
 
             const responseEmbed = new EmbedBuilder()
                 .setTitle("Stack Trace Analyzer")
