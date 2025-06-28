@@ -3,7 +3,7 @@
         "^\\.aternos",
         "(how.+(can|do).+(i|you)|is.+there.+(a |any ?)way).+(install|get|upload|add).+(add( |-)?ons|jedcore).+(in|on|to).+aternos"
     ],
-    "response": "Unfortunately, Aternos does not allow you to upload any jar files to the server. This means you cannot install the latest version of ProjectKorra, JedCore or any custom abilities for ProjectKorra.\n\nWe recommend using another host instead. You can either\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use MineStrator\n- Use FreeMCServer",
+    "response": "Unfortunately, Aternos does not allow you to upload any jar files to the server. This means you cannot install the latest version of ProjectKorra, JedCore or any custom abilities for ProjectKorra.\n\nWe recommend using another host instead. You can either\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use MineStrator\n- Use FreeMCServer\n- Use MCServerHost",
     "buttons": [
         "Self Host Tutorial",
         "https://www.youtube.com/watch?v=d1vzYR0I22g",
@@ -13,8 +13,12 @@
         "https://minestrator.com/en/free/minecraft/server",
         "FreeMCServer",
         "https://freemcserver.net/",
-        "Full Free Server Host List",
-        "http://fmhl.free.nf/"              
+        "MCServerHost",
+        "https://www.mcserverhost.com/",
+        "Play Hosting",
+        "https://play.hosting/"
+        "More Free Servers",
+        "https://geekflare.com/hosting/free-minecraft-server-hosting/#:~:text=Free%20Minecraft%20Server%20Hosting%20Compared%20%282025%29%201%20Aternos,Best%20for%20Small%2C%20Private%20Servers%20...%20Meer%20items",
     ]
 },
 {
@@ -22,7 +26,7 @@
         "^\\.freehosts",
         "(are|is) there (any|another)? ?(other)? free ((server|hosts)|server hosts)|what (else )?(can|do) (i|we) use (instead of|apart from|other than) aternos|what (other )?free hosts (is|are) (there|exist)"
     ],
-    "response": "If you are looking for free hosts other than Aternos, you can use the following instead:\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use MineStrator\n- Use FreeMCServer",
+    "response": "If you are looking for free hosts other than Aternos, you can use the following instead:\n- Self Host (Host it on your own computer)\n- Use Falix\n- Use MineStrator\n- Use FreeMCServer\n- Use MCServerHost",
     "buttons": [
         "Self Host Tutorial",
         "https://www.youtube.com/watch?v=d1vzYR0I22g",
@@ -32,7 +36,11 @@
         "https://minestrator.com/en/free/minecraft/server",
         "FreeMCServer",
         "https://freemcserver.net/",
-        "Full Free Server Host List",
-        "http://fmhl.free.nf/"        
+        "MCServerHost",
+        "https://www.mcserverhost.com/",
+        "Play Hosting",
+        "https://play.hosting/"
+        "More Free Servers",
+        "https://geekflare.com/hosting/free-minecraft-server-hosting/#:~:text=Free%20Minecraft%20Server%20Hosting%20Compared%20%282025%29%201%20Aternos,Best%20for%20Small%2C%20Private%20Servers%20...%20Meer%20items",
     ]
 }]
